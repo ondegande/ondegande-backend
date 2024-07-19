@@ -11,6 +11,9 @@ application*.properties
 ### schema.sql ###
 schema.sql
 
+### mac OS ###
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
