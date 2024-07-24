@@ -14,6 +14,14 @@ public class ApiResponse <T> {
         this.header = header;
     }
 
+    public ApiHeader getHeader() {
+        return header;
+    }
+
+    public ApiBody<T> getBody() {
+        return body;
+    }
+
     public static <T> ApiResponse<T> success(ResponseCode responseCode, T data) {
         return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()), new ApiBody<>(data));
     }

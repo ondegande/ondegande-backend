@@ -16,11 +16,13 @@ public class SwaggerConfig {
         SecurityRequirement securityRequirement = new SecurityRequirement().addList("Authorization");
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
-                .components(new Components()
+                .components(
+                        new Components()
                         .addSecuritySchemes("Authorization", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
-                                .bearerFormat("JWT")))
+                                .bearerFormat("JWT"))
+                )
                 .info(apiInfo());
     }
 
