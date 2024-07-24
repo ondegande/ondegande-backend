@@ -37,11 +37,7 @@ public class TravelCourseService {
     }
 
     public List<TravelCourse> findByMemberId(Long id) {
-        return travelCourseRepository.findByMemberId(id);
-    }
-
-    public List<TravelCourse> list(Long id) {
-        return travelCourseRepository.findByMemberId(id);
+        return travelCourseRepository.findByMemberId(id).orElseThrow(() -> new IllegalArgumentException("회원이 가진 여행코스가 존재하지 않습니다."));
     }
 
     public void deleteById(Long id) {
