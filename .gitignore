@@ -6,14 +6,15 @@ build/
 !**/src/test/**/build/
 
 ### application ###
-application*.properties
+application-prod.yml
+application-local.yml
 
 ### schema.sql ###
 schema.sql
 
 ### mac OS ###
 .DS_Store
-
+:qq:qqq:q
 ### STS ###
 .apt_generated
 .classpath
