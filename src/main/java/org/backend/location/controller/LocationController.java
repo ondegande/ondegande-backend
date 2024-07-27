@@ -2,14 +2,12 @@ package org.backend.location.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.net.URI;
 import org.backend.global.response.ApiResponse;
 import org.backend.global.response.ResponseCode;
 import org.backend.location.application.LocationService;
 import org.backend.location.domain.Location;
 import org.backend.location.dto.LocationRequest;
 import org.backend.location.dto.LocationResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
