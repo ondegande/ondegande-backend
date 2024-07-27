@@ -1,7 +1,6 @@
 package org.backend.location.domain;
 
 import java.util.Optional;
-import org.backend.location.domain.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
