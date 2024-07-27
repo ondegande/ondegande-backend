@@ -20,12 +20,20 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String name;
+
+    private String refreshToken;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    public Member(String email, String name, String refreshToken, Role role) {
+        this.email = email;
+        this.name = name;
+        this.refreshToken = refreshToken;
+        this.role = role;
+    }
 
     public Member(String email,
                   String name,
@@ -37,6 +45,14 @@ public class Member extends BaseTimeEntity {
 
     public Member() {
 
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public Long getId() {
