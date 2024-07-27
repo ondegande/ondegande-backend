@@ -1,10 +1,12 @@
 package org.backend.travelcourse.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import org.backend.common.BaseTimeEntity;
 import org.backend.courseinfo.Accommodation;
 import org.backend.courseinfo.Companion;
 import org.backend.courseinfo.Concept;
@@ -15,18 +17,34 @@ import org.backend.courseinfo.Transport;
 import org.backend.member.domain.Member;
 
 @Entity
-public class TravelCourse {
+public class TravelCourse extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private Schedule schedule;
+
+    @Column(nullable = false)
     private Season season;
+
+    @Column(nullable = false)
     private Companion companion;
+
+    @Column(nullable = false)
     private Concept concept;
+
+    @Column(nullable = false)
     private Transport transport;
+
+    @Column(nullable = false)
     private Distance distance;
+
+    @Column(nullable = false)
     private Accommodation accommodation;
+
+    @Column(nullable = false)
     private boolean isShared;
 
     @ManyToOne
