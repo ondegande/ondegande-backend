@@ -1,10 +1,12 @@
 package org.backend.travelcourse.application;
 
 import java.util.List;
+import org.backend.global.response.ResponseCode;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
+import org.backend.travelcourse.exception.TravelCouresNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,11 +35,13 @@ public class TravelCourseService {
     }
 
     public TravelCourse findById(Long id) {
-        return travelCourseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행코스 입니다."));
+        return travelCourseRepository.findById(id)
+                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
     }
 
     public List<TravelCourse> findByMemberId(Long id) {
-        return travelCourseRepository.findByMemberId(id).orElseThrow(() -> new IllegalArgumentException("회원이 가진 여행코스가 존재하지 않습니다."));
+        return travelCourseRepository.findByMemberId(id)
+                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_MEMBER));
     }
 
     public void deleteById(Long id) {
