@@ -14,6 +14,10 @@ public class ApiResponse <T> {
         this.header = header;
     }
 
+    public ApiResponse(ApiBody<T> body) {
+        this.body = body;
+    }
+
     public ApiHeader getHeader() {
         return header;
     }
@@ -34,7 +38,11 @@ public class ApiResponse <T> {
         return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()));
     }
 
-    public static <T> ApiResponse<T> fail(ResponseCode responseCode, String message) {
+    public static <T> ApiResponse<T> fail(ResponseCode responseCode, ErrorResponse message) {
         return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()), new ApiBody(message));
+    }
+
+    public static <T> ApiResponse<T> fail(T data) {
+        return new ApiResponse<>(new ApiBody<>(data));
     }
 }

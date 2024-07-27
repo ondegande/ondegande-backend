@@ -31,6 +31,7 @@ public enum ResponseCode {
     COURSE_CREATED(HttpStatus.CREATED, "여행코스 생성 성공"),
 
     COURSE_NOT_FOUND(HttpStatus.NOT_FOUND, "여행코스가 존재하지 않습니다."),
+    COURSE_NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "회원이 가진 여행코스 정보가 없습니다."),
 
     COURSE_READ_SUCCESS(HttpStatus.OK, "여행코스 조회 성공"),
     COURSE_MEMBER_READ_SUCCESS(HttpStatus.OK, "회원의 여행코스 목록 조회 성공"),
@@ -42,7 +43,9 @@ public enum ResponseCode {
      */
     LOCATION_CREATED(HttpStatus.CREATED, "위치 생성 성공"),
 
-    LOCATION_NOT_FOUND(HttpStatus.NOT_FOUND, " 존재하지 않는 위치 입니다."),
+    LOCATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 위치 입니다."),
+
+    LOCATION_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 존재하는 위치 정보입니다."),
 
     LOCATION_READ_SUCCESS(HttpStatus.OK, "위치 조회 성공"),
     LOCATION_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "위치 삭제 성공");
