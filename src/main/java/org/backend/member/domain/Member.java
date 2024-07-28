@@ -36,16 +36,29 @@ public class Member extends BaseTimeEntity {
     }
 
     public Member(String email,
-                  String name,
+                  String refreshToken,
                   Role role) {
         this.email = email;
-        this.name = name;
+        this.refreshToken = refreshToken;
         this.role = role;
     }
 
-    public Member() {
-
+    public Member(String email,
+                  Role role) {
+        this.email = email;
+        this.role = role;
     }
+
+    public static Member from(String email) {
+        return new Member(email, Role.USER);
+    }
+
+    public Member update(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Member() {}
 
     public String getRefreshToken() {
         return refreshToken;
@@ -55,21 +68,16 @@ public class Member extends BaseTimeEntity {
         return role;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Member update(String name) {
-        this.name = name;
-        return this;
     }
 
     public String getRoleKey() {

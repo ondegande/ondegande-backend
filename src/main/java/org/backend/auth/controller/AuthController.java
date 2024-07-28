@@ -17,8 +17,8 @@ public class AuthController {
         this.authService = authService;
     }
 
-//    @PostMapping("/auth/login/kakao")
-//    public ApiResponse<LoginResponse> kakaoLogin(@RequestParam String code) {
-//        return ApiResponse.success(ResponseCode.MEMBER_LOGIN_SUCCESS, authService.register(code));
-//    }
+    @PostMapping("/auth/login/kakao")
+    public ApiResponse<LoginResponse> kakaoLogin(@RequestParam String code) {
+        return ApiResponse.success(ResponseCode.MEMBER_LOGIN_SUCCESS, authService.register(code));
+    }
 }

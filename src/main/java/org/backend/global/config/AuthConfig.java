@@ -4,6 +4,7 @@ import org.backend.auth.application.AuthService;
 import org.backend.auth.application.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class AuthConfig {
@@ -14,7 +15,7 @@ public class AuthConfig {
     }
 
     @Bean
-    public AuthService authService() {
-        return new AuthService();
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
