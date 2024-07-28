@@ -66,9 +66,9 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(NON_AUTH_LIST).permitAll()
-                        .requestMatchers(AUTH_LIST).hasRole(Role.USER.name())
-                        .anyRequest().authenticated())
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui").permitAll()
+                        .requestMatchers("/hi").hasRole(Role.USER.name())
+                        .anyRequest().permitAll())
 
                 .oauth2Login(oauth2Login -> oauth2Login
                         .successHandler(oauth2SuccessHandler)

@@ -24,4 +24,12 @@ public class MemberService {
     public Member findByRefreshToken(String refreshToken) {
         return memberRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
     }
+
+    public Member register(Member member) {
+        Member regitserMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        if(regitserMember == null) {
+            return memberRepository.save(member);
+        }
+        return regitserMember;
+    }
 }

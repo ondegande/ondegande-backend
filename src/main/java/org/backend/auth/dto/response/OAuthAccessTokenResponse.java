@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record KakaoMemberResponse(
-        Long id,
-        KakaoAcount kakaoAccount
+public record OAuthAccessTokenResponse(
+        String tokenType,
+        String accessToken,
+        Integer expiresIn,
+        String refreshToken,
+        Integer refreshTokenExpiresIn,
+        String idToken,
+        String scope
 ) {
-
-    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public record KakaoAcount(String email, String nickname) {
-    }
 }
