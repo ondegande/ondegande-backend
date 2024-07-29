@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 public enum ResponseCode {
 
     /*
+    Login
+     */
+    LOGIN_SUCCES(HttpStatus.OK, "로그인에 성공하셨습니다."),
+
+    /*
     Basic
      */
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
