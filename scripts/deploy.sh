@@ -1,7 +1,6 @@
 #!/bin/bash
 
 REPOSITORY=/home/ec2-user/app/step2/zip
-BUILD_PATH=build/libs
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
@@ -17,10 +16,6 @@ else
   sleep 5
 fi
 
-#echo "> Build 파일 복사"
-
-#cp $REPOSITORY/$BUILD_PATH/*.jar $REPOSITORY/
-
 echo "> 새 애플리케이션 배포"
 
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
@@ -34,5 +29,5 @@ chmod +x $JAR_NAME
 echo "> $JAR_NAME 실행"
 
 nohup java -jar \
-  -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/application-prod.yml \
+  -Dspring.config.location=classpath:/application.yml,classpath:application-prod.yml,classpath:application-oauth.yml \
   $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
