@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 
 public enum ResponseCode {
 
-    /*
+    /**
     Login
      */
     LOGIN_SUCCES(HttpStatus.OK, "로그인에 성공하셨습니다."),
 
-    /*
+    /**
     Basic
      */
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
@@ -17,7 +17,7 @@ public enum ResponseCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메소드입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 오류가 발생하였습니다."),
 
-    /*
+    /**
     Member
      */
     MEMBER_CREATED(HttpStatus.CREATED, "회원가입 성공"),
@@ -30,7 +30,7 @@ public enum ResponseCode {
 
     MEMBER_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "회원 정보 삭제 성공"),
 
-    /*
+    /**
     TravelCourse
      */
     COURSE_CREATED(HttpStatus.CREATED, "여행코스 생성 성공"),
@@ -43,7 +43,7 @@ public enum ResponseCode {
 
     COURSE_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "여행코스 삭제 성공"),
 
-    /*
+    /**
     Location
      */
     LOCATION_CREATED(HttpStatus.CREATED, "위치 생성 성공"),
@@ -53,7 +53,14 @@ public enum ResponseCode {
     LOCATION_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 존재하는 위치 정보입니다."),
 
     LOCATION_READ_SUCCESS(HttpStatus.OK, "위치 조회 성공"),
-    LOCATION_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "위치 삭제 성공");
+    LOCATION_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "위치 삭제 성공"),
+
+    /**
+     * Kakao
+     */
+    KAKAO_TOKEN_RETRIEVAL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR , "카카오 토큰 가져오기 실패"),
+    KAKAO_USER_RETRIEVAL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "카카오 유저 정보 가져오기 실패");
+
 
     private HttpStatus status;
     private String message;
