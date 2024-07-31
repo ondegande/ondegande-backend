@@ -2,8 +2,12 @@ package org.backend.auth.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Objects;
 import org.backend.auth.dto.response.KakaoMemberResponse;
 import org.backend.auth.dto.response.OAuthAccessTokenResponse;
+import org.backend.auth.exception.KakaoTokenRetrievalFailedException;
+import org.backend.auth.exception.KakaoUserRetrievalFailedException;
+import org.backend.global.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -42,34 +46,23 @@ public class KakaoOauth2Client {
 
     public String getAccessToken(final String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", KAKAO_CLIENT_ID);
-        params.add("redirect_uri", KAKAO_REDIRECT_URI);
-        params.add("code", code);
-        params.add("client_secret", KAKAO_CLIENT_SECRET);
+        setParams(params, code);
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
-        ResponseEntity<String> accessTokenResponse = restTemplate.exchange(
-                KAKAO_TOKEN_URI,
-                HttpMethod.POST,
-                kakaoTokenRequest,
-                String.class
-        );
-        if (accessTokenResponse.getStatusCode() == HttpStatus.OK) {
-            ObjectMapper objectMapper = new ObjectMapper();
 
-            try {
-                OAuthAccessTokenResponse response = objectMapper.readValue(accessTokenResponse.getBody(), OAuthAccessTokenResponse.class);
-                return response.accessToken();
-            } catch (JsonProcessingException e) {
-                throw new IllegalArgumentException("카카오 액세스 토큰을 가져오는데 실패했습니다.", e);
-            }
+        try {
+            return restTemplate.exchange(
+                    KAKAO_TOKEN_URI,
+                    HttpMethod.POST,
+                    kakaoTokenRequest,
+                    OAuthAccessTokenResponse.class
+            ).getBody().accessToken();
+        } catch (Exception e) {
+            throw new KakaoTokenRetrievalFailedException(ResponseCode.KAKAO_TOKEN_RETRIEVAL_FAILED);
         }
-        return null;
     }
 
     public KakaoMemberResponse getMemberInfo(final String accessToken) {
@@ -79,13 +72,23 @@ public class KakaoOauth2Client {
 
         final HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        final KakaoMemberResponse response = restTemplate.exchange(
-                KAKAO_USER_INFO_URI,
-                HttpMethod.GET,
-                request,
-                KakaoMemberResponse.class
-        ).getBody();
+        try {
+            return restTemplate.exchange(
+                    KAKAO_USER_INFO_URI,
+                    HttpMethod.GET,
+                    request,
+                    KakaoMemberResponse.class
+            ).getBody();
+        } catch (Exception e) {
+            throw  new KakaoUserRetrievalFailedException(ResponseCode.KAKAO_USER_RETRIEVAL_FAILED);
+        }
+    }
 
-        return response;
+    public void setParams(MultiValueMap<String, String> params, String code) {
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", KAKAO_CLIENT_ID);
+        params.add("redirect_uri", KAKAO_REDIRECT_URI);
+        params.add("code", code);
+        params.add("client_secret", KAKAO_CLIENT_SECRET);
     }
 }
