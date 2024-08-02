@@ -26,6 +26,14 @@ public class Location extends BaseTimeEntity {
     @Column(nullable = false)
     private Double longitude;
 
+    public Location(Long id, String name, String address, Double latitude, Double longitude) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Location(String name, String address, Double latitude, Double longitude) {
         this.name = name;
         this.address = address;

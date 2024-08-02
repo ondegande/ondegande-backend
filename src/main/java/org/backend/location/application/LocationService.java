@@ -28,6 +28,7 @@ public class LocationService {
         return new LocationResponse(
                 location.getId(),
                 location.getName(),
+                location.getAddress(),
                 location.getLatitude(),
                 location.getLongitude()
         );
