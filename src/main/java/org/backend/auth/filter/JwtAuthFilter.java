@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.backend.auth.application.AuthService;
 import org.backend.auth.jwt.JwtUtils;
+import org.backend.auth.jwt.Token;
 import org.backend.member.application.MemberService;
 import org.backend.member.domain.Member;
 import org.springframework.security.core.Authentication;
@@ -44,8 +45,9 @@ public class JwtAuthFilter extends GenericFilterBean {
         else if(refreshToken != null) {
             Member member = memberService.findByRefreshToken(refreshToken);
             if(member != null) {
-                jwtUtil.reIssueToken((HttpServletResponse) response, member.getEmail());
-                Authentication auth = authService.getAuthentication(member.getEmail(), member.getRole().getKey());
+                Token token = jwtUtil.reIssueToken((HttpServletResponse) response, member.getEmail());
+                Member registeredMember = memberService.register(member, token);
+                Authentication auth = authService.getAuthentication(registeredMember.getEmail(), registeredMember.getRole().getKey());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
