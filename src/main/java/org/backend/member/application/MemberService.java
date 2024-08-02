@@ -29,7 +29,8 @@ public class MemberService {
     public Member register(Member member, Token token) {
         Member regitserMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
         if(regitserMember == null) {
-            return memberRepository.save(member);
+            member.setRefreshToken(token.getRefreshToken());
+            return memberRepository.saveAndFlush(member);
         }
         return regitserMember;
     }
