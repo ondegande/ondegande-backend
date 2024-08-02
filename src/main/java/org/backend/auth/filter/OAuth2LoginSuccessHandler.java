@@ -4,7 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.backend.auth.application.JwtUtils;
+import org.backend.auth.jwt.JwtUtils;
 import org.backend.auth.CustomOauth2User;
 import org.backend.auth.jwt.Token;
 import org.springframework.security.core.Authentication;
