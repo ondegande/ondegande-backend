@@ -129,10 +129,11 @@ public class JwtUtils {
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
     }
 
-    public void reIssueToken(HttpServletResponse response, String email) {
+    public Token reIssueToken(HttpServletResponse response, String email) {
         Token token = createToken(email);
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(AUTHORIZATION, BEARER + token.getAccessToken());
         response.setHeader(AUTHORIZATION_REFRESH_TOKEN, BEARER + token.getRefreshToken());
+        return token;
     }
 }
