@@ -1,4 +1,4 @@
-package org.backend.auth.application;
+package org.backend.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -48,11 +48,10 @@ public class JwtUtils {
     }
 
     public Token createToken(String email) {
-
         Claims claims = Jwts.claims()
                 .setIssuer(SERVER_ISSUER)
                 .setAudience(email);
-        claims.put(ROLE, Role.USER);
+        claims.put(ROLE, Role.USER.getKey());
 
         return new Token(createAccessToken(claims), createRefreshToken(claims));
     }
@@ -84,23 +83,22 @@ public class JwtUtils {
         try{
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey).build().parseClaimsJws(token);
-
             return claims.getBody().getExpiration()
                     .after(new Date());
-        } catch (final UnsupportedJwtException e) {
+        } catch (UnsupportedJwtException e) {
             System.out.println("지원하지 않는 JWT입니다.");
             return false;
-        } catch (final MalformedJwtException e) {
+        } catch (MalformedJwtException e) {
             System.out.println("잘못된 JWT 서명입니다.");
             return false;
-        } catch (final SignatureException e) {
+        } catch (SignatureException e) {
             System.out.println("토큰의 서명 유효성 검사가 실패했습니다.");
             return false;
-        } catch (final ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             System.out.println("토큰의 유효기간이 만료되었습니다.");
             return false;
-        } catch (final Exception e) {
-            System.out.println("알 수 없는 토큰 유효성 문제가 발생했습니다.");
+        } catch (Exception e) {
+            System.out.println("알 수 없는 토큰 유효성 문제가 발생했습니다." + e.getMessage());
             return false;
         }
     }
@@ -111,10 +109,12 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getAudience();
     }
 
-    public Role getRole(String token) {
-        return Jwts.parserBuilder()
+    public String getRole(String token) {
+        String role = Jwts.parserBuilder()
                 .setSigningKey(secretKey).build()
-                .parseClaimsJws(token).getBody().get("role", Role.class);
+                .parseClaimsJws(token).getBody().get("role").toString();
+
+        return role;
     }
 
     public Optional<String> extractAccesToken(HttpServletRequest request) {

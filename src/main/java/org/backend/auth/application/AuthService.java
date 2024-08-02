@@ -3,6 +3,7 @@ package org.backend.auth.application;
 import java.util.List;
 import org.backend.auth.dto.response.KakaoMemberResponse;
 import org.backend.auth.dto.response.LoginResponse;
+import org.backend.auth.jwt.JwtUtils;
 import org.backend.auth.jwt.Token;
 import org.backend.member.application.MemberService;
 import org.backend.member.domain.Member;
@@ -30,14 +31,14 @@ public class AuthService {
         String accessToken = kakaoOauth2Client.getAccessToken(code);
         KakaoMemberResponse response = kakaoOauth2Client.getMemberInfo(accessToken);
         Member member = Member.from(response.kakaoAccount().email());
-        Member registeredMember = memberService.register(member);
-        Token token = jwtUtils.createToken(registeredMember.getEmail());
+        Token token = jwtUtils.createToken(member.getEmail());
+        Member registeredMember = memberService.register(member, token);
         return new LoginResponse(registeredMember.getEmail(), token);
     }
 
-    public UsernamePasswordAuthenticationToken getAuthentication(String email, Role role) {
+    public UsernamePasswordAuthenticationToken getAuthentication(String email, String role) {
         return new UsernamePasswordAuthenticationToken(email,
                 "",
-                List.of(new SimpleGrantedAuthority(role.getKey())));
+                List.of(new SimpleGrantedAuthority(role)));
     }
 }

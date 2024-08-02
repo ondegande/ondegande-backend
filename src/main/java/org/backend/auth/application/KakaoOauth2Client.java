@@ -80,7 +80,7 @@ public class KakaoOauth2Client {
                     KakaoMemberResponse.class
             ).getBody();
         } catch (Exception e) {
-            throw  new KakaoUserRetrievalFailedException(ResponseCode.KAKAO_USER_RETRIEVAL_FAILED);
+            throw new KakaoUserRetrievalFailedException(ResponseCode.KAKAO_USER_RETRIEVAL_FAILED);
         }
     }
 

@@ -7,7 +7,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.backend.auth.application.AuthService;
-import org.backend.auth.application.JwtUtils;
+import org.backend.auth.jwt.JwtUtils;
 import org.backend.member.application.MemberService;
 import org.backend.member.domain.Member;
 import org.springframework.security.core.Authentication;
@@ -38,7 +38,7 @@ public class JwtAuthFilter extends GenericFilterBean {
         String accessToken = jwtUtil.extractAccesToken((HttpServletRequest) request).orElse(null);
         String refreshToken = jwtUtil.extractRefreshToken((HttpServletRequest) request).orElse(null);
 
-        if (accessToken != null && jwtUtil.verifyToken(accessToken)) {
+        if (jwtUtil.verifyToken(accessToken)) {
             Authentication auth = authService.getAuthentication(jwtUtil.getUid(accessToken), jwtUtil.getRole(accessToken));
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
@@ -46,7 +46,7 @@ public class JwtAuthFilter extends GenericFilterBean {
             Member member = memberService.findByRefreshToken(refreshToken);
             if(member != null) {
                 jwtUtil.reIssueToken((HttpServletResponse) response, member.getEmail());
-                Authentication auth = authService.getAuthentication(member.getEmail(), member.getRole());
+                Authentication auth = authService.getAuthentication(member.getEmail(), member.getRole().getKey());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

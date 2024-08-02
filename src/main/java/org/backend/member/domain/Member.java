@@ -22,6 +22,7 @@ public class Member extends BaseTimeEntity {
 
     private String name;
 
+    @Column(nullable = true)
     private String refreshToken;
 
     @Enumerated(EnumType.STRING)
@@ -59,6 +60,10 @@ public class Member extends BaseTimeEntity {
     }
 
     public Member() {}
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
     public String getRefreshToken() {
         return refreshToken;

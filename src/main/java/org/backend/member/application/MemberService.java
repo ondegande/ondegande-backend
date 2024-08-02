@@ -1,5 +1,6 @@
 package org.backend.member.application;
 
+import org.backend.auth.jwt.Token;
 import org.backend.member.domain.Member;
 import org.backend.member.domain.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class MemberService {
         return memberRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
     }
 
-    public Member register(Member member) {
+    public Member register(Member member, Token token) {
         Member regitserMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
         if(regitserMember == null) {
             return memberRepository.save(member);

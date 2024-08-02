@@ -1,7 +1,6 @@
 package org.backend.global.config;
 
-import org.backend.auth.application.AuthService;
-import org.backend.auth.application.JwtUtils;
+import org.backend.auth.jwt.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

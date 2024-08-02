@@ -2,7 +2,7 @@ package org.backend.global.config;
 
 import org.backend.auth.application.AuthService;
 import org.backend.auth.application.CustomOAuth2UserService;
-import org.backend.auth.application.JwtUtils;
+import org.backend.auth.jwt.JwtUtils;
 import org.backend.auth.filter.JwtAuthFilter;
 import org.backend.auth.filter.OAuth2LoginFailureHandler;
 import org.backend.auth.filter.OAuth2LoginSuccessHandler;
@@ -64,19 +64,16 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger-ui/**", "/swagger-ui").permitAll()
-                        .requestMatchers("/hi").hasRole(Role.USER.name())
+                        .requestMatchers("/api/**", "/hello").hasRole(Role.USER.name())
                         .anyRequest().permitAll())
-
                 .oauth2Login(oauth2Login -> oauth2Login
                         .successHandler(oauth2SuccessHandler)
                         .failureHandler(oauth2FailureHandler)
                         .userInfoEndpoint(UserInfoEndpointConfig -> UserInfoEndpointConfig
                                 .userService(customOAuth2UserService)))
                 .addFilterBefore(jwtAuthFilter(jwtUtils, authService, memberService), UsernamePasswordAuthenticationFilter.class)
-
                 .build();
     }
 
