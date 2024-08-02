@@ -34,7 +34,6 @@ public class JwtAuthFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request,
                          ServletResponse response,
                          FilterChain filterChain) throws IOException, ServletException {
-
         String accessToken = jwtUtil.extractAccesToken((HttpServletRequest) request).orElse(null);
         String refreshToken = jwtUtil.extractRefreshToken((HttpServletRequest) request).orElse(null);
 
