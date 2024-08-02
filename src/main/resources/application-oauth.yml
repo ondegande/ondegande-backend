@@ -1,5 +1,9 @@
 spring:
   security:
+    user:
+      name: admin
+      password: sajfds8gf-ahfdsfa9-asdfsadfg-gfdag
+      
     oauth2:
       client:
         registration:
