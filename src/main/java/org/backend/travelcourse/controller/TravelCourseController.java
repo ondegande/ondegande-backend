@@ -35,11 +35,7 @@ public class TravelCourseController {
     public ApiResponse<TravelCourseResponse> create(@RequestBody TravelCourseRequest travelCourseRequest) {
         if (travelCourseRequest.schedule() == null
         || travelCourseRequest.concept() == null
-        || travelCourseRequest.companion() == null
-        || travelCourseRequest.accommodation() == null
-        || travelCourseRequest.distance() == null
-        || travelCourseRequest.season() == null
-        || travelCourseRequest.transport() == null) {
+        || travelCourseRequest.accommodation() == null) {
             return ApiResponse.fail(ResponseCode.BAD_REQUEST);
         }
         TravelCourseResponse travelCourseResponse = travelCourseService.save(travelCourseRequest);

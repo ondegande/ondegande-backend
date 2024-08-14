@@ -24,11 +24,7 @@ public class TravelCourseService {
         return new TravelCourseResponse(
                 travelCourse.getId(),
                 travelCourse.getSchedule(),
-                travelCourse.getSeason(),
-                travelCourse.getCompanion(),
                 travelCourse.getConcept(),
-                travelCourse.getTransport(),
-                travelCourse.getDistance(),
                 travelCourse.getAccommodation(),
                 travelCourse.isShared()
         );

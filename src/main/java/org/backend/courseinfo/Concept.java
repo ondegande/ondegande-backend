@@ -2,20 +2,29 @@ package org.backend.courseinfo;
 
 public enum Concept {
 
-    FILIAL_DUTY("효도"),
-    HEALING("힐링"),
-    LEISURE("레저"),
-    DRIVE("드라이브"),
-    FOOD("먹거리"),
-    NONE("선택안함");
+    NATURE_HEALING("자연관광지"),
 
-    private final String type;
+    CULTURE_HISTORY("역사관광지"),
 
-    Concept(String type) {
-        this.type = type;
+    ACTIVITY_LEISURE("육상 레포츠"),
+
+    GASTRONOMIC_TOUR("음식점"),
+
+    FAMILY_TRIP("휴양관광지"),
+
+    SOLO_HEALING("자연관광지"),
+
+    URBAN_SHOPPING("쇼핑"),
+
+    FESTIVAL_PERFORMANCE("축제");
+
+    private final String mainCategory;
+
+    Concept(String mainCategory) {
+        this.mainCategory = mainCategory;
     }
 
-    public String getName() {
-        return type;
+    public String getMainCategory() {
+        return mainCategory;
     }
 }
