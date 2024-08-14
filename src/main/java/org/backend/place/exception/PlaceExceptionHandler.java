@@ -1,4 +1,4 @@
-package org.backend.location.exception;
+package org.backend.place.exception;
 
 import java.time.LocalDateTime;
 import org.backend.global.response.ErrorResponse;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
-public class LocationExceptionHandler {
+public class PlaceExceptionHandler {
 
-    @ExceptionHandler(LocationNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleLocationException(LocationNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(PlaceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePlaceException(PlaceNotFoundException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 exception.getResponseCode().getHttpStatus(),
@@ -22,8 +22,8 @@ public class LocationExceptionHandler {
         return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
     }
 
-    @ExceptionHandler(LocationAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleLocationException(LocationAlreadyExistException exception, WebRequest request) {
+    @ExceptionHandler(PlaceAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handlePlaceException(PlaceAlreadyExistException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 exception.getResponseCode().getHttpStatus(),

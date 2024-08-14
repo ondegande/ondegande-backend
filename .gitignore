@@ -14,7 +14,7 @@ schema.sql
 
 ### mac OS ###
 .DS_Store
-:qq:qqq:q
+
 ### STS ###
 .apt_generated
 .classpath
