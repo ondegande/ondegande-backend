@@ -21,36 +21,27 @@ public class PlaceService {
 
     @Transactional
     public PlaceResponse save(PlaceRequest request) {
-//        validateLocation(request);
-
+        validatePlace(request);
         Place place = placeRepository.save(request.toEntity());
-
-        return new PlaceResponse(
-                place.getPlaceId(),
-                place.getContentid(),
-                place.getTitle(),
-                place.getContentTypeId(),
-                place.getAddr1(),
-                place.getMapx(),
-                place.getMapy(),
-                place.getFirstimage(),
-                place.getDescription()
-        );
+        return PlaceResponse.toResponseDto(place);
     }
 
-    private void validateLocation(PlaceRequest request) {
+    @Transactional(readOnly = true)
+    public PlaceResponse findById(Long id) {
+        return PlaceResponse.toResponseDto(placeRepository.findById(id)
+                .orElseThrow(() -> new PlaceNotFoundException(ResponseCode.LOCATION_NOT_FOUND)));
+    }
+
+    public void deleteById(Long id) {
+        placeRepository.findById(id).orElseThrow(
+                () -> new PlaceNotFoundException(ResponseCode.LOCATION_NOT_FOUND));
+        placeRepository.deleteById(id);
+    }
+
+    public void validatePlace(PlaceRequest request) {
         placeRepository.findByLatitudeAndLongitude(request.mapx(), request.mapy())
                 .ifPresent(it -> {
                     throw new PlaceAlreadyExistException(ResponseCode.LOCATION_ALREADY_EXIST);
                 });
-    }
-
-    public Place findById(Long id) {
-        return placeRepository.findById(id)
-                .orElseThrow(() -> new PlaceNotFoundException(ResponseCode.LOCATION_NOT_FOUND));
-    }
-
-    public void deleteById(Long id) {
-        placeRepository.deleteById(id);
     }
 }

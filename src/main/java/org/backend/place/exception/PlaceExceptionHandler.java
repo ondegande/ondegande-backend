@@ -23,7 +23,19 @@ public class PlaceExceptionHandler {
     }
 
     @ExceptionHandler(PlaceAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handlePlaceException(PlaceAlreadyExistException exception, WebRequest request) {
+    public ResponseEntity<ErrorResponse> handlePlaceAlreadyExistException(PlaceAlreadyExistException exception, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                exception.getResponseCode().getHttpStatus(),
+                exception.getResponseCode().name(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(PlaceBadRequestException.class)
+    public ResponseEntity<ErrorResponse> handlePlaceBadRequestException(PlaceBadRequestException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 exception.getResponseCode().getHttpStatus(),
