@@ -44,8 +44,14 @@ public class Place extends BaseTimeEntity {
     public Place() {
     }
 
-    public Place(String contentid, String title, PlaceType contentTypeId, String addr1, Double mapx, Double mapy,
-                 String firstimage, String description) {
+    public Place(String contentid,
+                 String title,
+                 PlaceType contentTypeId,
+                 String addr1,
+                 Double mapx,
+                 Double mapy,
+                 String firstimage,
+                 String description) {
         this.contentid = contentid;
         this.title = title;
         this.contentTypeId = contentTypeId;
@@ -56,8 +62,15 @@ public class Place extends BaseTimeEntity {
         this.description = description;
     }
 
-    public Place(Long placeId, String contentid, String title, PlaceType contentTypeId, String addr1, Double mapx,
-                 Double mapy, String firstimage, String description) {
+    public Place(Long placeId,
+                 String contentid,
+                 String title,
+                 PlaceType contentTypeId,
+                 String addr1,
+                 Double mapx,
+                 Double mapy,
+                 String firstimage,
+                 String description) {
         this.placeId = placeId;
         this.contentid = contentid;
         this.title = title;
