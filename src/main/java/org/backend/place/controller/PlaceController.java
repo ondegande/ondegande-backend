@@ -8,6 +8,7 @@ import org.backend.place.application.PlaceService;
 import org.backend.place.domain.Place;
 import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
+import org.backend.place.exception.PlaceBadRequestException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,7 @@ public class PlaceController {
         if (placeRequest.title() == null ||
         placeRequest.mapx() == null ||
         placeRequest.mapy() == null) {
-            return ApiResponse.fail(ResponseCode.BAD_REQUEST);
+            throw new PlaceBadRequestException(ResponseCode.BAD_REQUEST);
         }
         PlaceResponse placeResponse = placeService.save(placeRequest);
         return ApiResponse.success(ResponseCode.LOCATION_CREATED, placeResponse);
@@ -41,7 +42,7 @@ public class PlaceController {
 
     @GetMapping("/places/{id}")
     @Operation(summary = "장소 정보 불러오기", description = "Place 객체의 고유 ID 값을 사용하여 장소 정보를 불러오기 위해 사용하는 API")
-    public ApiResponse<Place> location(@PathVariable Long id) {
+    public ApiResponse<PlaceResponse> location(@PathVariable Long id) {
         return ApiResponse.success(ResponseCode.LOCATION_READ_SUCCESS, placeService.findById(id));
      }
 
