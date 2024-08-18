@@ -1,8 +1,8 @@
 package org.backend.travelcourse.dto;
 
-import org.backend.courseinfo.Accommodation;
-import org.backend.courseinfo.Concept;
-import org.backend.courseinfo.Schedule;
+import org.backend.travelcourse.domain.Accommodation;
+import org.backend.travelcourse.domain.Concept;
+import org.backend.travelcourse.domain.Schedule;
 import org.backend.travelcourse.domain.TravelCourse;
 
 public record TravelCourseRequest(

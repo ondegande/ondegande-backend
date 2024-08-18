@@ -21,4 +21,16 @@ public class TravelCourseExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
     }
+
+    @ExceptionHandler(TravelCourseBadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleTravelCourseBadRequestException(TravelCourseBadRequestException exception, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                exception.getResponseCode().getHttpStatus(),
+                exception.getResponseCode().name(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
+    }
 }
