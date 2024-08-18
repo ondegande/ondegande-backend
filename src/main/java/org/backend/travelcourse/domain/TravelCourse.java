@@ -7,9 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import org.backend.common.BaseTimeEntity;
-import org.backend.courseinfo.Accommodation;
-import org.backend.courseinfo.Concept;
-import org.backend.courseinfo.Schedule;
 import org.backend.member.domain.Member;
 
 @Entity
@@ -33,6 +30,20 @@ public class TravelCourse extends BaseTimeEntity {
 
     @ManyToOne
     private Member member;
+
+    public TravelCourse(Long id,
+                        Schedule schedule,
+                        Concept concept,
+                        Accommodation accommodation,
+                        boolean isShared,
+                        Member member) {
+        this.id = id;
+        this.schedule = schedule;
+        this.concept = concept;
+        this.accommodation = accommodation;
+        this.isShared = isShared;
+        this.member = member;
+    }
 
     public TravelCourse(Schedule schedule,
                         Concept concept,

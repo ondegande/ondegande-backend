@@ -1,4 +1,4 @@
-package org.backend.courseinfo;
+package org.backend.travelcourse.domain;
 
 public enum Schedule {
 

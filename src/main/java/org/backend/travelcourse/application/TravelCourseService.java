@@ -20,27 +20,24 @@ public class TravelCourseService {
 
     public TravelCourseResponse save(TravelCourseRequest request) {
         TravelCourse travelCourse = travelCourseRepository.save(request.toEntity());
-
-        return new TravelCourseResponse(
-                travelCourse.getId(),
-                travelCourse.getSchedule(),
-                travelCourse.getConcept(),
-                travelCourse.getAccommodation(),
-                travelCourse.isShared()
-        );
+        return TravelCourseResponse.toResponseDto(travelCourse);
     }
 
-    public TravelCourse findById(Long id) {
-        return travelCourseRepository.findById(id)
+    public TravelCourseResponse findById(Long id) {
+        TravelCourse travelCourse = travelCourseRepository.findById(id)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
+        return TravelCourseResponse.toResponseDto(travelCourse);
     }
 
-    public List<TravelCourse> findByMemberId(Long id) {
+    public List<TravelCourseResponse> findByMemberId(Long id) {
         return travelCourseRepository.findByMemberId(id)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_MEMBER))
+                .stream().map(TravelCourseResponse::toResponseDto).toList();
     }
 
     public void deleteById(Long id) {
+        travelCourseRepository.findById(id)
+                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
         travelCourseRepository.deleteById(id);
     }
 }
