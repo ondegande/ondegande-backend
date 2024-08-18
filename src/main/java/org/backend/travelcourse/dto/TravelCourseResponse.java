@@ -1,8 +1,9 @@
 package org.backend.travelcourse.dto;
 
-import org.backend.courseinfo.Accommodation;
-import org.backend.courseinfo.Concept;
-import org.backend.courseinfo.Schedule;
+import org.backend.travelcourse.domain.Accommodation;
+import org.backend.travelcourse.domain.Concept;
+import org.backend.travelcourse.domain.Schedule;
+import org.backend.travelcourse.domain.TravelCourse;
 
 public record TravelCourseResponse(
         Long id,
@@ -11,4 +12,13 @@ public record TravelCourseResponse(
         Accommodation accommodation,
         boolean isShared
 ) {
+    public static TravelCourseResponse toResponseDto(TravelCourse travelCourse) {
+        return new TravelCourseResponse(
+                travelCourse.getId(),
+                travelCourse.getSchedule(),
+                travelCourse.getConcept(),
+                travelCourse.getAccommodation(),
+                travelCourse.isShared()
+        );
+    }
 }
