@@ -1,5 +1,6 @@
 server:
   port: 8080
+  forward-headers-strategy: framework
   servlet:
     context-path: /
     encoding:
@@ -10,3 +11,19 @@ spring:
   profiles:
     active: prod
     include: oauth
+
+springdoc:
+  packages-to-scan: org.backend
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api/swagger-docs
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+    
