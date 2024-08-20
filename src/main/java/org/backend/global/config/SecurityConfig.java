@@ -53,8 +53,8 @@ public class SecurityConfig {
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui").permitAll()
-                        .requestMatchers("/api/**", "/hello").hasRole(Role.USER.name())
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui", "/api/swagger-docs").permitAll()
+                        .requestMatchers("/api/**", "/hello").permitAll()  //hasRole(Role.USER.name())
                         .anyRequest().permitAll())
                 .addFilterBefore(jwtAuthFilter(jwtUtils, authService, memberService), UsernamePasswordAuthenticationFilter.class)
                 .build();
