@@ -31,9 +31,7 @@ public class TravelCourseController {
     @PostMapping("/travel-courses")
     @Operation(summary = "여행코스 생성", description = "여행 코스를 생성하기 위해 사용하는 API")
     public ApiResponse<TravelCourseResponse> create(@RequestBody TravelCourseRequest travelCourseRequest) {
-        if (travelCourseRequest.schedule() == null
-        || travelCourseRequest.concept() == null
-        || travelCourseRequest.accommodation() == null) {
+        if (travelCourseRequest.name() == null) {
             throw new TravelCourseBadRequestException(ResponseCode.BAD_REQUEST);
         }
         TravelCourseResponse travelCourseResponse = travelCourseService.save(travelCourseRequest);
