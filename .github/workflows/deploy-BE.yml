@@ -1,11 +1,9 @@
 name: Java CI with Gradle Cache
 
 on:
-  pull_request:
-    branches: [ "main" ]
   push:
     branches:
-      - hotfix/ci-cd-codedeploy
+      - main
 
 jobs:
   test:
