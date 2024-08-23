@@ -6,7 +6,10 @@ build/
 !**/src/test/**/build/
 
 ### application ###
-src/main/resources
+application.yml
+application-oauth.yml
+application-prod.yml
+application-local.yml
 
 ### schema.sql ###
 schema.sql
