@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import org.backend.member.domain.Member;
 import org.backend.member.domain.Role;
-import org.backend.travelcourse.domain.Accommodation;
-import org.backend.travelcourse.domain.Concept;
-import org.backend.travelcourse.domain.Schedule;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
 import org.backend.travelcourse.dto.TravelCourseRequest;
@@ -45,17 +42,13 @@ public class TravelCourseServiceTest {
     @BeforeEach
     void setUp() {
         travelCourseRequest = new TravelCourseRequest(
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스",
                 false
         );
 
         travelCourse = new TravelCourse(
                 1L,
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스",
                 false,
                 null
         );
@@ -78,7 +71,7 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.concept(), Concept.ACTIVITY_LEISURE);
+        assertEquals(response.name(), "나만의 코스");
     }
 
     @Test
@@ -90,7 +83,7 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.accommodation(), Accommodation.CONDOMINIUM);
+        assertEquals(response.name(), "나만의 코스");
     }
 
     @Test
@@ -110,18 +103,14 @@ public class TravelCourseServiceTest {
         // given
         TravelCourse travelCourse1 = new TravelCourse(
                 1L,
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스",
                 false,
                 member
         );
 
         TravelCourse travelCourse2 = new TravelCourse(
                 2L,
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스2",
                 false,
                 member
         );
@@ -134,8 +123,8 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(responses);
-        assertEquals(responses.get(0).accommodation(), Accommodation.CONDOMINIUM);
-        assertEquals(responses.get(1).accommodation(), Accommodation.CONDOMINIUM);
+        assertEquals(responses.get(0).name(), "나만의 코스");
+        assertEquals(responses.get(1).name(), "나만의 코스2");
     }
 
     @Test

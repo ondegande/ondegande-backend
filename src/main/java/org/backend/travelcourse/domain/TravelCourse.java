@@ -16,14 +16,8 @@ public class TravelCourse extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Schedule schedule;
-
-    @Column(nullable = false)
-    private Concept concept;
-
-    @Column(nullable = false)
-    private Accommodation accommodation;
+    @Column(nullable = false, length = 300)
+    private String name;
 
     @Column(nullable = false)
     private boolean isShared;
@@ -31,58 +25,32 @@ public class TravelCourse extends BaseTimeEntity {
     @ManyToOne
     private Member member;
 
-    public TravelCourse(Long id,
-                        Schedule schedule,
-                        Concept concept,
-                        Accommodation accommodation,
-                        boolean isShared,
-                        Member member) {
+    public TravelCourse(Long id, String name, boolean isShared, Member member) {
         this.id = id;
-        this.schedule = schedule;
-        this.concept = concept;
-        this.accommodation = accommodation;
+        this.name = name;
         this.isShared = isShared;
         this.member = member;
     }
 
-    public TravelCourse(Schedule schedule,
-                        Concept concept,
-                        Accommodation accommodation,
-                        boolean isShared,
-                        Member member) {
-        this.schedule = schedule;
-        this.concept = concept;
-        this.accommodation = accommodation;
+    public TravelCourse(String name, boolean isShared, Member member) {
+        this.name = name;
         this.isShared = isShared;
         this.member = member;
     }
 
-    public TravelCourse(Schedule schedule,
-                        Concept concept,
-                        Accommodation accommodation,
-                        boolean isShared) {
-        this.schedule = schedule;
-        this.concept = concept;
-        this.accommodation = accommodation;
+    public TravelCourse(String name, boolean isShared) {
+        this.name = name;
         this.isShared = isShared;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public TravelCourse() {}
 
     public Long getId() {
         return id;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public Concept getConcept() {
-        return concept;
-    }
-
-    public Accommodation getAccommodation() {
-        return accommodation;
     }
 
     public boolean isShared() {

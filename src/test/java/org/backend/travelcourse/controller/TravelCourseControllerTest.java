@@ -13,9 +13,6 @@ import java.util.List;
 import org.backend.member.domain.Member;
 import org.backend.member.domain.Role;
 import org.backend.travelcourse.application.TravelCourseService;
-import org.backend.travelcourse.domain.Accommodation;
-import org.backend.travelcourse.domain.Concept;
-import org.backend.travelcourse.domain.Schedule;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
@@ -54,23 +51,12 @@ public class TravelCourseControllerTest {
     @BeforeEach
     void setUp() {
         validRequest = new TravelCourseRequest(
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스",
                 false
         );
 
         invalidRequest = new TravelCourseRequest(
                 null,
-                null,
-                null,
-                false
-        );
-
-        travelCourse = new TravelCourse(
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
                 false
         );
 
@@ -80,6 +66,12 @@ public class TravelCourseControllerTest {
                 null,
                 null,
                 Role.USER
+        );
+
+        travelCourse = new TravelCourse(
+                "나만의 코스",
+                false,
+                member
         );
 
         travelCourseId = 1L;
@@ -99,7 +91,7 @@ public class TravelCourseControllerTest {
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.schedule").value("ONE_NIGHTS"));
+                .andExpect(jsonPath("$.body.data.name").value("나만의 코스"));
     }
 
     @Test
@@ -141,7 +133,7 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.schedule").value("ONE_NIGHTS"));
+                .andExpect(jsonPath("$.body.data.name").value("나만의 코스"));
     }
 
     @Test
@@ -151,18 +143,14 @@ public class TravelCourseControllerTest {
         // given
         TravelCourse travelCourse1 = new TravelCourse(
                 1L,
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스",
                 false,
                 member
         );
 
         TravelCourse travelCourse2 = new TravelCourse(
                 2L,
-                Schedule.ONE_NIGHTS,
-                Concept.ACTIVITY_LEISURE,
-                Accommodation.CONDOMINIUM,
+                "나만의 코스2",
                 false,
                 member
         );
@@ -177,7 +165,7 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data[0].schedule").value("ONE_NIGHTS"));
+                .andExpect(jsonPath("$.body.data[0].name").value("나만의 코스"));
     }
 
     @Test
