@@ -2,7 +2,6 @@ package org.backend.travelcourse.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.net.URI;
 import java.util.List;
 import org.backend.global.response.ApiResponse;
 import org.backend.global.response.ResponseCode;
@@ -10,7 +9,6 @@ import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.application.TravelCourseService;
 import org.backend.travelcourse.domain.TravelCourse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +31,9 @@ public class TravelCourseController {
     @PostMapping("/travel-courses")
     @Operation(summary = "여행코스 생성", description = "여행 코스를 생성하기 위해 사용하는 API")
     public ApiResponse<TravelCourseResponse> create(@RequestBody TravelCourseRequest travelCourseRequest) {
-        if (travelCourseRequest.schedule() == null
-        || travelCourseRequest.concept() == null
-        || travelCourseRequest.accommodation() == null) {
+        if (travelCourseRequest.name() == null)
             return ApiResponse.fail(ResponseCode.BAD_REQUEST);
-        }
+
         TravelCourseResponse travelCourseResponse = travelCourseService.save(travelCourseRequest);
         return ApiResponse.success(ResponseCode.COURSE_CREATED, travelCourseResponse);
     }
