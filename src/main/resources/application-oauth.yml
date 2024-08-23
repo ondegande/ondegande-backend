@@ -24,7 +24,7 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
   cors:
-    allowed-origins: "http://localhost:8080"
+    allowed-origins: "http://localhost:8080,http://localhost:3000,http://43.200.29.96"
     allowed-methods: GET, POST, PUT, DELETE
     allowed-headers-1: "Authorization"
     allowed-headers-2: "Content-Type"
