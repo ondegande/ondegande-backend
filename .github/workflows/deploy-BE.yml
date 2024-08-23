@@ -3,6 +3,9 @@ name: Java CI with Gradle Cache
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches:
+      - hotfix/ci-cd-codedeploy
 
 jobs:
   test:
@@ -90,7 +93,7 @@ jobs:
         run: |
           aws deploy create-deployment \
             --application-name ondegande \
-            --deployment-group-name ondegande-group \
+            --deployment-group-name ondegande-BE-group \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --description "Deploying from GitHub Actions" \
             --file-exists-behavior OVERWRITE \

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/step2/zip
+REPOSITORY=/home/ec2-user/backend
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
