@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import org.backend.place.domain.Place;
 import org.backend.place.domain.PlaceRepository;
-import org.backend.place.domain.PlaceType;
 import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.backend.place.exception.PlaceAlreadyExistException;
@@ -37,24 +36,15 @@ public class PlaceServiceTest {
     @BeforeEach
     void setUp() {
         placeRequest = new PlaceRequest(
-                "10001",
-                "Sample Place 1",
-                PlaceType.ACCOMMODATION,
-                null,
-                null,
-                null,
-                null,
-                null);
+                "장소1",
+                15.3333,
+                15.4444);
 
-        place = new Place(1L,
-                "10001",
-                "Sample Place 1",
-                PlaceType.ACCOMMODATION,
-                null,
-                null,
-                null,
-                null,
-                null);
+        place = new Place(
+                1L,
+                "장소1",
+                15.3333,
+                15.4444);
     }
 
     @Test
@@ -66,7 +56,7 @@ public class PlaceServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.contentid(), placeRequest.contentid());
+        assertEquals(response.placeName(), placeRequest.placeName());
     }
 
     @Test
@@ -78,7 +68,7 @@ public class PlaceServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.contentid(), "10001");
+        assertEquals(response.longitude(), 15.4444);
     }
 
     @Test
@@ -99,7 +89,7 @@ public class PlaceServiceTest {
         placeService.validatePlace(placeRequest);
 
         // then
-        verify(placeRepository).findByLatitudeAndLongitude(place.getMapx(), place.getMapy());
+        verify(placeRepository).findByLatitudeAndLongitude(place.getLatitude(), place.getLongitude());
     }
 
     @Test
@@ -128,8 +118,8 @@ public class PlaceServiceTest {
     @DisplayName("장소 정보가 이미 존재하는 예외 발생 테스트 입니다.")
     void testValidateLocationException() {
         // when
-        when(placeRepository.findByLatitudeAndLongitude(place.getMapx(), place.getMapy())).thenThrow(
-                PlaceAlreadyExistException.class);
+        when(placeRepository.findByLatitudeAndLongitude(place.getLatitude(), place.getLongitude()))
+                .thenThrow(PlaceAlreadyExistException.class);
 
         // then
         assertThrows(PlaceAlreadyExistException.class,

@@ -9,7 +9,7 @@ public record TravelCourseResponse(
 ) {
     public static TravelCourseResponse toResponseDto(TravelCourse travelCourse) {
         return new TravelCourseResponse(
-                travelCourse.getId(),
+                travelCourse.getTravelCourseId(),
                 travelCourse.getName(),
                 travelCourse.isShared()
         );

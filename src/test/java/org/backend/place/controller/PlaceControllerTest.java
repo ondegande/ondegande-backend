@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.backend.place.application.PlaceService;
 import org.backend.place.domain.Place;
-import org.backend.place.domain.PlaceType;
 import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,34 +46,20 @@ public class PlaceControllerTest {
     @BeforeEach
     void setUp() {
         validRequest = new PlaceRequest(
-                "10001",
-                "Sample Place 1",
-                PlaceType.ACCOMMODATION,
-                null,
+                "장소1",
                 10.123,
-                10.135,
-                null,
-                null);
+                10.135);
 
         invalidRequest = new PlaceRequest(
-                "10001",
-                "Sample Place 1",
-                PlaceType.ACCOMMODATION,
+                "장소2",
                 null,
-                null,
-                10.135,
-                null,
-                null);
+                10.135);
 
-        place = new Place(1L,
-                "10001",
-                "Sample Place 1",
-                PlaceType.ACCOMMODATION,
-                null,
-                null,
-                null,
-                null,
-                null);
+        place = new Place(
+                1L,
+                "장소1",
+                10.123,
+                10.135);
 
         placeId = 1L;
     }
@@ -92,7 +77,7 @@ public class PlaceControllerTest {
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.title").value("Sample Place 1"));
+                .andExpect(jsonPath("$.body.data.placeName").value("장소1"));
     }
 
     @Test
@@ -134,7 +119,7 @@ public class PlaceControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.title").value("Sample Place 1"));
+                .andExpect(jsonPath("$.body.data.placeName").value("장소1"));
     }
 
     @Test

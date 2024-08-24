@@ -39,7 +39,7 @@ public class PlaceService {
     }
 
     public void validatePlace(PlaceRequest request) {
-        placeRepository.findByLatitudeAndLongitude(request.mapx(), request.mapy())
+        placeRepository.findByLatitudeAndLongitude(request.latitude(), request.longitude())
                 .ifPresent(it -> {
                     throw new PlaceAlreadyExistException(ResponseCode.LOCATION_ALREADY_EXIST);
                 });
