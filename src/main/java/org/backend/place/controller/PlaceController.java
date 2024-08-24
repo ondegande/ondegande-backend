@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.backend.global.response.ApiResponse;
 import org.backend.global.response.ResponseCode;
 import org.backend.place.application.PlaceService;
-import org.backend.place.domain.Place;
 import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.backend.place.exception.PlaceBadRequestException;
@@ -31,9 +30,9 @@ public class PlaceController {
     @PostMapping("/places")
     @Operation(summary = "장소 정보를 저장", description = "사용자가 여행 장소를 여행코스에 추가하여 생성할 때 장소를 저장하기 위해 사용하는 API")
     public ApiResponse<PlaceResponse> create(@RequestBody PlaceRequest placeRequest) {
-        if (placeRequest.title() == null ||
-        placeRequest.mapx() == null ||
-        placeRequest.mapy() == null) {
+        if (placeRequest.placeName() == null
+                || placeRequest.latitude() == null
+                || placeRequest.longitude() == null) {
             throw new PlaceBadRequestException(ResponseCode.BAD_REQUEST);
         }
         PlaceResponse placeResponse = placeService.save(placeRequest);

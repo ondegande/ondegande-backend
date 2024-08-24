@@ -8,7 +8,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Query("Select l "
             + "from Place l "
-            + "where l.mapx = :mapx "
-            + "And l.mapy = :mapy")
-    Optional<Place> findByLatitudeAndLongitude(Double mapx, Double mapy);
+            + "where l.latitude = :latitude "
+            + "And l.longitude = :longitude")
+    Optional<Place> findByLatitudeAndLongitude(Double latitude, Double longitude);
 }

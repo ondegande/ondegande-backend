@@ -14,7 +14,7 @@ public class TravelCourse extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long travelCourseId;
 
     @Column(nullable = false, length = 300)
     private String name;
@@ -25,8 +25,8 @@ public class TravelCourse extends BaseTimeEntity {
     @ManyToOne
     private Member member;
 
-    public TravelCourse(Long id, String name, boolean isShared, Member member) {
-        this.id = id;
+    public TravelCourse(Long travelCourseId, String name, boolean isShared, Member member) {
+        this.travelCourseId = travelCourseId;
         this.name = name;
         this.isShared = isShared;
         this.member = member;
@@ -49,8 +49,8 @@ public class TravelCourse extends BaseTimeEntity {
 
     public TravelCourse() {}
 
-    public Long getId() {
-        return id;
+    public Long getTravelCourseId() {
+        return travelCourseId;
     }
 
     public boolean isShared() {
