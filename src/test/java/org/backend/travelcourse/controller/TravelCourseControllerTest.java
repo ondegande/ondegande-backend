@@ -13,6 +13,7 @@ import java.util.List;
 import org.backend.member.domain.Member;
 import org.backend.member.domain.Role;
 import org.backend.travelcourse.application.TravelCourseService;
+import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
@@ -52,12 +53,18 @@ public class TravelCourseControllerTest {
     void setUp() {
         validRequest = new TravelCourseRequest(
                 "나만의 코스",
-                false
+                false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER
         );
 
         invalidRequest = new TravelCourseRequest(
                 null,
-                false
+                false,
+                2,
+                null,
+                CreatorType.YOUTUBER
         );
 
         member = new Member(
@@ -69,8 +76,12 @@ public class TravelCourseControllerTest {
         );
 
         travelCourse = new TravelCourse(
+                1L,
                 "나만의 코스",
                 false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
                 member
         );
 
@@ -91,7 +102,7 @@ public class TravelCourseControllerTest {
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.name").value("나만의 코스"));
+                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"));
     }
 
     @Test
@@ -133,7 +144,7 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.name").value("나만의 코스"));
+                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"));
     }
 
     @Test
@@ -145,6 +156,9 @@ public class TravelCourseControllerTest {
                 1L,
                 "나만의 코스",
                 false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
                 member
         );
 
@@ -152,6 +166,9 @@ public class TravelCourseControllerTest {
                 2L,
                 "나만의 코스2",
                 false,
+                2,
+                "테스트TV2",
+                CreatorType.YOUTUBER,
                 member
         );
 
@@ -165,7 +182,7 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data[0].name").value("나만의 코스"));
+                .andExpect(jsonPath("$.body.data[0].courseName").value("나만의 코스"));
     }
 
     @Test
