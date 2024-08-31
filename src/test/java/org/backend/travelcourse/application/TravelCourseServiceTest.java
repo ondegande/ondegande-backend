@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import org.backend.member.domain.Member;
 import org.backend.member.domain.Role;
+import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
 import org.backend.travelcourse.dto.TravelCourseRequest;
@@ -43,14 +44,10 @@ public class TravelCourseServiceTest {
     void setUp() {
         travelCourseRequest = new TravelCourseRequest(
                 "나만의 코스",
-                false
-        );
-
-        travelCourse = new TravelCourse(
-                1L,
-                "나만의 코스",
                 false,
-                null
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER
         );
 
         member = new Member(
@@ -59,6 +56,16 @@ public class TravelCourseServiceTest {
                 null,
                 null,
                 Role.USER
+        );
+
+        travelCourse = new TravelCourse(
+                1L,
+                "나만의 코스",
+                false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
+                member
         );
     }
 
@@ -71,7 +78,7 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.name(), "나만의 코스");
+        assertEquals(response.courseName(), "나만의 코스");
     }
 
     @Test
@@ -83,7 +90,7 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.name(), "나만의 코스");
+        assertEquals(response.courseName(), "나만의 코스");
     }
 
     @Test
@@ -105,6 +112,9 @@ public class TravelCourseServiceTest {
                 1L,
                 "나만의 코스",
                 false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
                 member
         );
 
@@ -112,6 +122,9 @@ public class TravelCourseServiceTest {
                 2L,
                 "나만의 코스2",
                 false,
+                2,
+                "테스트TV2",
+                CreatorType.YOUTUBER,
                 member
         );
 
@@ -123,8 +136,8 @@ public class TravelCourseServiceTest {
 
         // then
         assertNotNull(responses);
-        assertEquals(responses.get(0).name(), "나만의 코스");
-        assertEquals(responses.get(1).name(), "나만의 코스2");
+        assertEquals(responses.get(0).courseName(), "나만의 코스");
+        assertEquals(responses.get(1).courseName(), "나만의 코스2");
     }
 
     @Test
