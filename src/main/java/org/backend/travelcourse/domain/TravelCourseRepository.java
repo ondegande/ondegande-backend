@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TravelCourseRepository extends JpaRepository<TravelCourse, Long> {
 
     Optional<List<TravelCourse>> findByMemberId(Long id);
+
+    Optional<List<TravelCourse>> findTravelCoursesByCreatorType(CreatorType creatorType);
 }

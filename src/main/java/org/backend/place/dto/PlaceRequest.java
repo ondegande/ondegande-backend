@@ -1,18 +1,9 @@
 package org.backend.place.dto;
 
-import org.backend.place.domain.Place;
+import java.util.List;
 
 public record PlaceRequest(
-        String placeName,
-        Double latitude,
-        Double longitude
+        int day,
+        List<PlaceDetailRequest> places
 ) {
-
-    public Place toEntity() {
-        return new Place(
-                placeName,
-                latitude,
-                longitude
-        );
-    }
 }
