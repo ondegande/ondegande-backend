@@ -13,6 +13,7 @@ import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
 import org.backend.travelcoursedetail.excetion.TravelCourseDetailNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TravelCourseService {
@@ -25,10 +26,12 @@ public class TravelCourseService {
         this.travelCourseDetailRepository = travelCourseDetailRepository;
     }
 
+    @Transactional
     public TravelCourse save(TravelCourseRequest request) {
         return travelCourseRepository.save(request.toEntity());
     }
 
+    @Transactional(readOnly = true)
     public TravelCourseResponse findById(Long id) {
         TravelCourse travelCourse = travelCourseRepository.findById(id)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
@@ -41,18 +44,21 @@ public class TravelCourseService {
         return TravelCourseResponse.toResponseDto(travelCourse, travelCourseDetailResponses);
     }
 
+    @Transactional(readOnly = true)
     public List<TravelCourseListResponse> findByMemberId(Long id) {
         return travelCourseRepository.findByMemberId(id)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_MEMBER))
                 .stream().map(TravelCourseListResponse::toResponseListDto).toList();
     }
 
-    public List<TravelCourseListResponse> findByCreatorType() {
+    @Transactional(readOnly = true)
+    public List<TravelCourseListResponse> findYoutuberTravelCourse() {
         return travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))
                 .stream().map(TravelCourseListResponse::toResponseListDto).toList();
     }
 
+    @Transactional
     public void deleteById(Long id) {
         travelCourseRepository.findById(id)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));

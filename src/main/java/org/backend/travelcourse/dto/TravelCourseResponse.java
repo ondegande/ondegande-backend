@@ -25,16 +25,4 @@ public record TravelCourseResponse(
                 travelCourseDetailResponses
         );
     }
-
-    public static TravelCourseResponse toResponseListDto(TravelCourse travelCourse) {
-        return new TravelCourseResponse(
-                travelCourse.getTravelCourseId(),
-                travelCourse.getCourseName(),
-                travelCourse.isShared(),
-                travelCourse.getDays(),
-                travelCourse.getCreatorName(),
-                travelCourse.getCreatorType(),
-                null
-        );
-    }
 }
