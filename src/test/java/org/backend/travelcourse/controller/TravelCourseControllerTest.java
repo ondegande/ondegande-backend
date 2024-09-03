@@ -110,6 +110,8 @@ public class TravelCourseControllerTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 member
         );
 
@@ -187,6 +189,8 @@ public class TravelCourseControllerTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 member
         );
 
@@ -197,6 +201,8 @@ public class TravelCourseControllerTest {
                 2,
                 "테스트TV2",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 member
         );
 
@@ -238,6 +244,8 @@ public class TravelCourseControllerTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 member
         );
 
@@ -248,6 +256,8 @@ public class TravelCourseControllerTest {
                 2,
                 "테스트TV2",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 member
         );
 

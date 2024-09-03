@@ -39,6 +39,8 @@ public class TravelCourseDetailServiceTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 null
         );
 

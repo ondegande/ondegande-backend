@@ -39,11 +39,14 @@ public class TravelCourse extends BaseTimeEntity {
     @Column(nullable = true, name = "youtube_url")
     private String youtubeURL;
 
+    @Column(nullable = true, name = "youtuber_image_url")
+    private String youtubeImageUrl;
+
     @ManyToOne
     private Member member;
 
     public TravelCourse(Long travelCourseId, String courseName, boolean isShared, int days, String creatorName,
-                        CreatorType creatorType, String youtubeURL, Member member) {
+                        CreatorType creatorType, String youtubeURL, String youtubeImageUrl, Member member) {
         this.travelCourseId = travelCourseId;
         this.courseName = courseName;
         this.isShared = isShared;
@@ -51,6 +54,7 @@ public class TravelCourse extends BaseTimeEntity {
         this.creatorName = creatorName;
         this.creatorType = creatorType;
         this.youtubeURL = youtubeURL;
+        this.youtubeImageUrl = youtubeImageUrl;
         this.member = member;
     }
 
@@ -113,6 +117,10 @@ public class TravelCourse extends BaseTimeEntity {
 
     public String getYoutubeURL() {
         return youtubeURL;
+    }
+
+    public String getYoutubeImageUrl() {
+        return youtubeImageUrl;
     }
 
     public Long getTravelCourseId() {
