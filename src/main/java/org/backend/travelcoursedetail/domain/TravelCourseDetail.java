@@ -9,12 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.backend.common.BaseTimeEntity;
 import org.backend.place.domain.Place;
 import org.backend.travelcourse.domain.TravelCourse;
 
 @Entity
 @Table(name = "travel_course_detail")
-public class TravelCourseDetail {
+public class TravelCourseDetail extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
