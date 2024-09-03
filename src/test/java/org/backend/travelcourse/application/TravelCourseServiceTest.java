@@ -77,6 +77,8 @@ public class TravelCourseServiceTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
+                null,
+                null,
                 null);
 
         travelCourseDetails = List.of(
@@ -142,8 +144,27 @@ public class TravelCourseServiceTest {
     @DisplayName("회원의 고유 값으로 여행코스 리스트 조회를 테스트합니다.")
     void testFindByMemberId() {
         // given
-        TravelCourse travelCourse1 = new TravelCourse(1L, "나만의 코스", false, 2, "테스트TV", CreatorType.YOUTUBER, member);
-        TravelCourse travelCourse2 = new TravelCourse(2L, "나만의 코스2", false, 2, "테스트TV2", CreatorType.YOUTUBER, member);
+        TravelCourse travelCourse1 = new TravelCourse(
+                1L,
+                "나만의 코스",
+                false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
+                null,
+                null,
+                member);
+
+        TravelCourse travelCourse2 = new TravelCourse(
+                2L,
+                "나만의 코스2",
+                false,
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
+                null,
+                null,
+                member);
 
         List<TravelCourse> courseList = List.of(travelCourse1, travelCourse2);
 
