@@ -12,6 +12,8 @@ public record TravelCourseResponse(
         int days,
         String creatorName,
         CreatorType creatorType,
+        String youtubeUrl,
+        String youtubeImageUrl,
         List<TravelCourseDetailResponse> travelCourseDetailResponse
 ) {
     public static TravelCourseResponse toResponseDto(TravelCourse travelCourse, List<TravelCourseDetailResponse> travelCourseDetailResponses) {
@@ -22,6 +24,8 @@ public record TravelCourseResponse(
                 travelCourse.getDays(),
                 travelCourse.getCreatorName(),
                 travelCourse.getCreatorType(),
+                travelCourse.getYoutubeUrl(),
+                travelCourse.getYoutubeImageUrl(),
                 travelCourseDetailResponses
         );
     }
