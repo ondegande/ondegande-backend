@@ -5,12 +5,12 @@ import org.springframework.http.HttpStatus;
 public enum ResponseCode {
 
     /**
-    Login
+     * Login
      */
     LOGIN_SUCCES(HttpStatus.OK, "로그인에 성공하셨습니다."),
 
     /**
-    Basic
+     * Basic
      */
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 없습니다."),
@@ -18,7 +18,7 @@ public enum ResponseCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 오류가 발생하였습니다."),
 
     /**
-    Member
+     * Member
      */
     MEMBER_CREATED(HttpStatus.CREATED, "회원가입 성공"),
 
@@ -31,20 +31,22 @@ public enum ResponseCode {
     MEMBER_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "회원 정보 삭제 성공"),
 
     /**
-    TravelCourse
+     * TravelCourse
      */
     COURSE_CREATED(HttpStatus.CREATED, "여행코스 생성 성공"),
 
     COURSE_NOT_FOUND(HttpStatus.NOT_FOUND, "여행코스가 존재하지 않습니다."),
     COURSE_NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "회원이 가진 여행코스 정보가 없습니다."),
+    COURSE_NOT_FOUND_YOUTUBER(HttpStatus.NOT_FOUND, "유튜버 여행코스 정보가 없습니다."),
 
     COURSE_READ_SUCCESS(HttpStatus.OK, "여행코스 조회 성공"),
     COURSE_MEMBER_READ_SUCCESS(HttpStatus.OK, "회원의 여행코스 목록 조회 성공"),
+    COURSE_YOUTUBER_READ_SUCCESS(HttpStatus.OK, "유튜버의 여행코스 목록 조회 성공"),
 
     COURSE_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "여행코스 삭제 성공"),
 
     /**
-    Location
+     * Location
      */
     LOCATION_CREATED(HttpStatus.CREATED, "위치 생성 성공"),
 
@@ -54,6 +56,11 @@ public enum ResponseCode {
 
     LOCATION_READ_SUCCESS(HttpStatus.OK, "위치 조회 성공"),
     LOCATION_DELETE_SUCCESS(HttpStatus.NO_CONTENT, "위치 삭제 성공"),
+
+    /**
+     * TravelCourseDetail
+     */
+    COURSE_DETAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 여행 코스 상세 정보입니다."),
 
     /**
      * Kakao

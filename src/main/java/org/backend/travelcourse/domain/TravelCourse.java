@@ -2,14 +2,18 @@ package org.backend.travelcourse.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.backend.common.BaseTimeEntity;
 import org.backend.member.domain.Member;
 
 @Entity
+@Table(name = "travel_course")
 public class TravelCourse extends BaseTimeEntity {
 
     @Id
@@ -25,15 +29,15 @@ public class TravelCourse extends BaseTimeEntity {
     @Column(nullable = false)
     private int days;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String creatorName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
+    @Enumerated(value = EnumType.STRING)
     private CreatorType creatorType;
 
     @ManyToOne
     private Member member;
-
 
     public TravelCourse(Long travelCourseId, String courseName, boolean isShared, int days, String creatorName,
                         CreatorType creatorType, Member member) {
@@ -70,6 +74,26 @@ public class TravelCourse extends BaseTimeEntity {
         this.days = days;
         this.creatorName = creatorName;
         this.creatorType = creatorType;
+    }
+
+    public TravelCourse(String courseName, boolean isShared, int days) {
+        this.courseName = courseName;
+        this.isShared = isShared;
+        this.days = days;
+    }
+
+    public TravelCourse() {}
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public void setCreatorType(CreatorType creatorType) {
+        this.creatorType = creatorType;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public Long getTravelCourseId() {

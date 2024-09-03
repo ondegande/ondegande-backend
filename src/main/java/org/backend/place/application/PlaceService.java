@@ -1,7 +1,10 @@
 package org.backend.place.application;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.backend.global.response.ResponseCode;
 import org.backend.place.domain.Place;
+import org.backend.place.dto.PlaceDetailRequest;
 import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.backend.place.domain.PlaceRepository;
@@ -20,7 +23,20 @@ public class PlaceService {
     }
 
     @Transactional
-    public PlaceResponse save(PlaceRequest request) {
+    public List<Place> findOrSave(List<PlaceDetailRequest> places) {
+        return places.stream()
+                .map(placeDetailRequest ->
+                        placeRepository.findByLatitudeAndLongitude(placeDetailRequest.latitude(), placeDetailRequest.longitude())
+                                .orElseGet(() -> {
+                                    Place newPlace = placeDetailRequest.toEntity();
+                                    return placeRepository.save(newPlace);
+                                })
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PlaceResponse save(PlaceDetailRequest request) {
         validatePlace(request);
         Place place = placeRepository.save(request.toEntity());
         return PlaceResponse.toResponseDto(place);
@@ -38,7 +54,7 @@ public class PlaceService {
         placeRepository.deleteById(id);
     }
 
-    public void validatePlace(PlaceRequest request) {
+    public void validatePlace(PlaceDetailRequest request) {
         placeRepository.findByLatitudeAndLongitude(request.latitude(), request.longitude())
                 .ifPresent(it -> {
                     throw new PlaceAlreadyExistException(ResponseCode.LOCATION_ALREADY_EXIST);

@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import org.backend.place.domain.Place;
 import org.backend.place.domain.PlaceRepository;
-import org.backend.place.dto.PlaceRequest;
+import org.backend.place.dto.PlaceDetailRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.backend.place.exception.PlaceAlreadyExistException;
 import org.backend.place.exception.PlaceNotFoundException;
@@ -30,12 +30,12 @@ public class PlaceServiceTest {
     @InjectMocks
     private PlaceService placeService;
 
-    private PlaceRequest placeRequest;
+    private PlaceDetailRequest placeDetailRequest;
     private Place place;
 
     @BeforeEach
     void setUp() {
-        placeRequest = new PlaceRequest(
+        placeDetailRequest = new PlaceDetailRequest(
                 "장소1",
                 15.3333,
                 15.4444);
@@ -52,11 +52,11 @@ public class PlaceServiceTest {
     void testSavePlace() {
         // when
         doReturn(place).when(placeRepository).save(any(Place.class));
-        PlaceResponse response = placeService.save(placeRequest);
+        PlaceResponse response = placeService.save(placeDetailRequest);
 
         // then
         assertNotNull(response);
-        assertEquals(response.placeName(), placeRequest.placeName());
+        assertEquals(response.placeName(), placeDetailRequest.placeName());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class PlaceServiceTest {
     @DisplayName("장소 정보 조회 시 장소 정보가 이미 존재하는지 검증하는 테스트를 진행합니다.")
     void testValidateLocationPlace() {
         // when
-        placeService.validatePlace(placeRequest);
+        placeService.validatePlace(placeDetailRequest);
 
         // then
         verify(placeRepository).findByLatitudeAndLongitude(place.getLatitude(), place.getLongitude());
@@ -123,6 +123,6 @@ public class PlaceServiceTest {
 
         // then
         assertThrows(PlaceAlreadyExistException.class,
-                () -> placeService.validatePlace(placeRequest));
+                () -> placeService.validatePlace(placeDetailRequest));
     }
 }
