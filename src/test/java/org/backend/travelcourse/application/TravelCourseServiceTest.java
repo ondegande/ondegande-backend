@@ -168,7 +168,7 @@ public class TravelCourseServiceTest {
     @DisplayName("유튜버 코스를 랜덤으로 1개 조회 테스트입니다.")
     void testFindRandomYoutuberTravelCourseByCreatorType() {
         // when
-        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER))
+        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenReturn(Optional.of(travelCourse));
         when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
                 .thenReturn(Optional.of(travelCourseDetails));
@@ -184,7 +184,7 @@ public class TravelCourseServiceTest {
     @DisplayName("유튜버 코스를 랜덤으로 1개 조회할 때 여행코스가 존재하지 않아 발생하는 예외 테스트입니다.")
     void testFindRandomYoutuberTravelCourseByCreatorTypeException() {
         // when
-        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER))
+        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenThrow(TravelCourseNotFoundException.class);
 
         // then
@@ -195,7 +195,7 @@ public class TravelCourseServiceTest {
     @DisplayName("유튜버 코스를 랜덤으로 1개 조회할 때 여행코스 상세 정보가 존재하지 않아 발생하는 예외 테스트입니다.")
     void testFindRandomYoutuberTravelCourseByCreatorTypeDetailException() {
         // when
-        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER))
+        when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenReturn(Optional.of(travelCourse));
         when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
                 .thenThrow(TravelCourseDetailNotFoundException.class);

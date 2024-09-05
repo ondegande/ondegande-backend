@@ -53,7 +53,7 @@ public class TravelCourseService {
 
     @Transactional(readOnly = true)
     public TravelCourseResponse findRandomYoutuberTravelCourseByCreatorType() {
-        TravelCourse travelCourse = travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER)
+        TravelCourse travelCourse = travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString())
                 .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
         List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
