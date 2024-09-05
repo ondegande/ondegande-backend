@@ -51,6 +51,19 @@ public class TravelCourseService {
                 .stream().map(TravelCourseListResponse::toResponseListDto).toList();
     }
 
+    @Transactional(readOnly = true)
+    public TravelCourseResponse findRandomYoutuberTravelCourse() {
+        TravelCourse travelCourse = travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER)
+                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
+
+        List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
+                .orElseThrow(() -> new TravelCourseDetailNotFoundException(ResponseCode.COURSE_DETAIL_NOT_FOUND))
+                .stream().map(TravelCourseDetailResponse::toResponseDto)
+                .toList();
+
+        return TravelCourseResponse.toResponseDto(travelCourse, travelCourseDetailResponses);
+    }
+
     @Transactional
     public void deleteById(Long id) {
         travelCourseRepository.findById(id)
