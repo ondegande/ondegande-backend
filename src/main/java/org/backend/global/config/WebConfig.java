@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${spring.cors.allowed-origins}")
-    private String LOCALHOST_SPRING;
+    private String ALLOWED_ORIGINS;
 
     @Value("${spring.cors.allowed-methods}")
     private String ALLOWED_METHODS;
@@ -29,8 +29,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(LOCALHOST_SPRING)
-                .allowedMethods(ALLOWED_METHODS)
+                .allowedOrigins(ALLOWED_ORIGINS.split(","))
+                .allowedMethods(ALLOWED_METHODS.split(","))
                 .allowedHeaders(ALLOWED_HEADERS_KEY_1, ALLOWED_HEADERS_KEY_2)
                 .exposedHeaders(EXPOSED_HEADERS)
                 .allowCredentials(ALLOW_CREDENTIALS)
