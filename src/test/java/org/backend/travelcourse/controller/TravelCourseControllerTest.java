@@ -198,6 +198,20 @@ public class TravelCourseControllerTest {
                 .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
                 .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"));
+    }
 
+    @Test
+    @DisplayName("유튜버 여행코스 정보 랜덤 조회 API를 테스트합니다.")
+    @WithMockUser(username = "test User", roles = "USER")
+    void testRandomYoutuberTravelCourse() throws Exception {
+        // when
+        when(travelCourseService.findRandomYoutuberTravelCourseByCreatorType()).thenReturn(TravelCourseResponse.toResponseDto(travelCourse, List.of()));
+
+        // then
+        mockMvc.perform(get("/api/travel-courses/youtubers/random")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"));
     }
 }

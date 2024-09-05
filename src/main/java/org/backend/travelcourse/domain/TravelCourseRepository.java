@@ -13,5 +13,5 @@ public interface TravelCourseRepository extends JpaRepository<TravelCourse, Long
             + " FROM travel_course t"
             + " WHERE t.creator_type = :creatorType"
             + " ORDER BY RAND() LIMIT 1", nativeQuery = true)
-    Optional<TravelCourse> findRandomTravelCourseByCreatorType(CreatorType creatorType);
+    Optional<TravelCourse> findRandomTravelCourseByCreatorType(String creatorType);
 }
