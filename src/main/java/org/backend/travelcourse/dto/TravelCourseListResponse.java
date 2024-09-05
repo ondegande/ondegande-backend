@@ -9,7 +9,9 @@ public record TravelCourseListResponse(
         boolean isShared,
         int days,
         String creatorName,
-        CreatorType creatorType
+        CreatorType creatorType,
+        String youtubeUrl,
+        String youtubeImageUrl
 ) {
     public static TravelCourseListResponse toResponseListDto(TravelCourse travelCourse) {
         return new TravelCourseListResponse(
@@ -18,7 +20,9 @@ public record TravelCourseListResponse(
                 travelCourse.isShared(),
                 travelCourse.getDays(),
                 travelCourse.getCreatorName(),
-                travelCourse.getCreatorType()
+                travelCourse.getCreatorType(),
+                travelCourse.getYoutubeUrl(),
+                travelCourse.getYoutubeImageUrl()
         );
     }
 }
