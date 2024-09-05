@@ -8,7 +8,7 @@ import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
-import org.backend.travelcourse.exception.TravelCouresNotFoundException;
+import org.backend.travelcourse.exception.TravelCourseNotFoundException;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
 import org.backend.travelcoursedetail.excetion.TravelCourseDetailNotFoundException;
@@ -34,7 +34,7 @@ public class TravelCourseService {
     @Transactional(readOnly = true)
     public TravelCourseResponse findById(Long id) {
         TravelCourse travelCourse = travelCourseRepository.findById(id)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
+                .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
         List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
                 .orElseThrow(() -> new TravelCourseDetailNotFoundException(ResponseCode.COURSE_DETAIL_NOT_FOUND))
@@ -45,16 +45,16 @@ public class TravelCourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<TravelCourseListResponse> findYoutuberTravelCourse() {
+    public List<TravelCourseListResponse> findYoutuberTravelCourseByCreatorType() {
         return travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))
+                .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))
                 .stream().map(TravelCourseListResponse::toResponseListDto).toList();
     }
 
     @Transactional(readOnly = true)
-    public TravelCourseResponse findRandomYoutuberTravelCourse() {
+    public TravelCourseResponse findRandomYoutuberTravelCourseByCreatorType() {
         TravelCourse travelCourse = travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
+                .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
         List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
                 .orElseThrow(() -> new TravelCourseDetailNotFoundException(ResponseCode.COURSE_DETAIL_NOT_FOUND))
@@ -67,7 +67,7 @@ public class TravelCourseService {
     @Transactional
     public void deleteById(Long id) {
         travelCourseRepository.findById(id)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND));
+                .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND));
         travelCourseRepository.deleteById(id);
     }
 }

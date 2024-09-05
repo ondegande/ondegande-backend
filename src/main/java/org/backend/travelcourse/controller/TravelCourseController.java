@@ -65,13 +65,13 @@ public class TravelCourseController {
     @GetMapping("/travel-courses/youtubers")
     @Operation(summary = "유튜버의 여행코스 목록 조회", description = "저장된 유튜버의 여행코스 목록을 조회하기 위해 사용하는 API")
     public ApiResponse<List<TravelCourseListResponse>> youtuberTravelCourseList() {
-        return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS, travelCourseService.findYoutuberTravelCourse());
+        return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS, travelCourseService.findYoutuberTravelCourseByCreatorType());
     }
 
     @GetMapping("/travel-courses/youtubers/random")
     @Operation(summary = "유튜버의 여행코스 랜덤 조회", description = "저장된 유튜버의 여행코스 중 랜덤으로 1개를 조회하기 위해 사용하는 API")
     public ApiResponse<TravelCourseResponse> randomYoutuberTravelCourse() {
-        return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS, travelCourseService.findRandomYoutuberTravelCourse());
+        return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS, travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
     }
 
     @DeleteMapping("/travel-courses/{id}")
