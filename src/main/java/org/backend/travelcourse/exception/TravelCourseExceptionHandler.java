@@ -10,8 +10,8 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class TravelCourseExceptionHandler {
 
-    @ExceptionHandler(TravelCouresNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleTravelCourseNotFoundException(TravelCouresNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(TravelCourseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTravelCourseNotFoundException(TravelCourseNotFoundException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 exception.getResponseCode().getHttpStatus(),

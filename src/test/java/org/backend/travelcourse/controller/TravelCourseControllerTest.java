@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
@@ -191,7 +190,7 @@ public class TravelCourseControllerTest {
         List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));
 
         // when
-        when(travelCourseService.findYoutuberTravelCourse()).thenReturn(courseList);
+        when(travelCourseService.findYoutuberTravelCourseByCreatorType()).thenReturn(courseList);
 
         // then
         mockMvc.perform(get("/api/travel-courses/youtubers")

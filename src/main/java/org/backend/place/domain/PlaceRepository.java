@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    @Query("Select l "
-            + "from Place l "
+    @Query(value = "Select * "
+            + "from places l "
             + "where l.latitude = :latitude "
-            + "And l.longitude = :longitude")
+            + "And l.longitude = :longitude", nativeQuery = true)
     Optional<Place> findByLatitudeAndLongitude(Double latitude, Double longitude);
 }
