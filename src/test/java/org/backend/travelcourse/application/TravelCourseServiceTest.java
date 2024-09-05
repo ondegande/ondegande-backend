@@ -7,8 +7,6 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 import java.util.Optional;
 
-import org.backend.member.domain.Member;
-import org.backend.member.domain.Role;
 import org.backend.place.domain.Place;
 import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
@@ -44,7 +42,6 @@ public class TravelCourseServiceTest {
 
     private TravelCourse travelCourse;
     private TravelCourseRequest travelCourseRequest;
-    private Member member;
     private List<TravelCourseDetail> travelCourseDetails;
 
     @BeforeEach
@@ -63,13 +60,6 @@ public class TravelCourseServiceTest {
                 List.of()
         );
 
-        member = new Member(
-                1L,
-                "test@test.com",
-                null,
-                null,
-                Role.USER);
-
         travelCourse = new TravelCourse(
                 1L,
                 "나만의 코스",
@@ -77,7 +67,6 @@ public class TravelCourseServiceTest {
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
-                null,
                 null,
                 null);
 
@@ -138,54 +127,6 @@ public class TravelCourseServiceTest {
 
         // then
         assertThrows(TravelCourseDetailNotFoundException.class, () -> travelCourseService.findById(1L));
-    }
-
-    @Test
-    @DisplayName("회원의 고유 값으로 여행코스 리스트 조회를 테스트합니다.")
-    void testFindByMemberId() {
-        // given
-        TravelCourse travelCourse1 = new TravelCourse(
-                1L,
-                "나만의 코스",
-                false,
-                2,
-                "테스트TV",
-                CreatorType.YOUTUBER,
-                null,
-                null,
-                member);
-
-        TravelCourse travelCourse2 = new TravelCourse(
-                2L,
-                "나만의 코스2",
-                false,
-                2,
-                "테스트TV",
-                CreatorType.YOUTUBER,
-                null,
-                null,
-                member);
-
-        List<TravelCourse> courseList = List.of(travelCourse1, travelCourse2);
-
-        // when
-        when(travelCourseRepository.findByMemberId(member.getId())).thenReturn(Optional.of(courseList));
-        List<TravelCourseListResponse> responses = travelCourseService.findByMemberId(member.getId());
-
-        // then
-        assertNotNull(responses);
-        assertEquals("나만의 코스", responses.get(0).courseName());
-        assertEquals("나만의 코스2", responses.get(1).courseName());
-    }
-
-    @Test
-    @DisplayName("회원 정보로 여행코스 조회 시 찾을 수 없는 예외 처리 발생 테스트입니다.")
-    void testFindByMemberIdException() {
-        // when
-        when(travelCourseRepository.findByMemberId(member.getId())).thenThrow(TravelCouresNotFoundException.class);
-
-        // then
-        assertThrows(TravelCouresNotFoundException.class, () -> travelCourseService.findByMemberId(member.getId()));
     }
 
     @Test

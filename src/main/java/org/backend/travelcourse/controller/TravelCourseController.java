@@ -57,15 +57,9 @@ public class TravelCourseController {
     }
 
     @GetMapping("/travel-courses/{id}")
-    @Operation(summary = "단일 여행코스 정보 조회", description = "여행코스 고유 ID 값을 이용해 여행코스를 조회하기 위해 사용하는 API")
+    @Operation(summary = "여행코스 상세 정보 조회", description = "여행코스 고유 ID 값을 이용해 여행코스 상세 정보를 조회하기 위해 사용하는 API")
     public ApiResponse<TravelCourseResponse> myTravelCourse(@PathVariable Long id) {
         return ApiResponse.success(ResponseCode.COURSE_READ_SUCCESS, travelCourseService.findById(id));
-    }
-
-    @GetMapping("/travel-courses/members/{id}")
-    @Operation(summary = "사용자의 여행코스 목록 조회", description = "사용자의 고유 ID를 이용해 저장한 여행코스 목록을 조회하기 위해 사용하는 API")
-    public ApiResponse<List<TravelCourseListResponse>> myTravelCourseList(@PathVariable Long id) {
-        return ApiResponse.success(ResponseCode.COURSE_MEMBER_READ_SUCCESS, travelCourseService.findByMemberId(id));
     }
 
     @GetMapping("/travel-courses/youtubers")

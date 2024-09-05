@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import org.backend.member.domain.Member;
-import org.backend.member.domain.Role;
 import org.backend.place.application.PlaceService;
 import org.backend.place.domain.Place;
 import org.backend.place.dto.PlaceDetailRequest;
@@ -57,9 +55,7 @@ public class TravelCourseControllerTest {
     private TravelCourseRequest validRequest;
     private TravelCourseRequest invalidRequest;
     private TravelCourse travelCourse;
-    private Member member;
     private Long travelCourseId;
-    private Long memberId;
     private List<PlaceRequest> placeRequests;
     private List<Place> places1;
 
@@ -95,14 +91,6 @@ public class TravelCourseControllerTest {
                 null
         );
 
-        member = new Member(
-                1L,
-                "test@test.com",
-                null,
-                null,
-                Role.USER
-        );
-
         travelCourse = new TravelCourse(
                 1L,
                 "나만의 코스",
@@ -111,12 +99,10 @@ public class TravelCourseControllerTest {
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null,
-                member
+                null
         );
 
         travelCourseId = 1L;
-        memberId = 1L;
     }
 
     @Test
@@ -133,21 +119,6 @@ public class TravelCourseControllerTest {
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("여행코스 생성 시 멤버 권한 예외 발생 테스트를 진행합니다.")
-    @WithMockUser(username = "test", roles = "GUEST")
-    void testCreateAuthorizationException() throws Exception {
-        // when
-        when(travelCourseService.save(validRequest)).thenThrow(AccessDeniedException.class);
-
-        // then
-        mockMvc.perform(post("/api/travel-courses")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType("application/json")
-                        .content(mapper.writeValueAsString(validRequest)))
-                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -178,48 +149,6 @@ public class TravelCourseControllerTest {
     }
 
     @Test
-    @DisplayName("사용자의 여행코스 목록 조회")
-    @WithMockUser(username = "test User", roles = "USER")
-    void testMyTravelCourseList() throws Exception {
-        // given
-        TravelCourse travelCourse1 = new TravelCourse(
-                1L,
-                "나만의 코스",
-                false,
-                2,
-                "테스트TV",
-                CreatorType.YOUTUBER,
-                null,
-                null,
-                member
-        );
-
-        TravelCourse travelCourse2 = new TravelCourse(
-                2L,
-                "나만의 코스2",
-                false,
-                2,
-                "테스트TV2",
-                CreatorType.YOUTUBER,
-                null,
-                null,
-                member
-        );
-
-        List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));
-
-        // when
-        when(travelCourseService.findByMemberId(memberId)).thenReturn(courseList);
-
-        // then
-        mockMvc.perform(get("/api/travel-courses/members/{id}", memberId)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data[0].courseName").value("나만의 코스"));
-    }
-
-    @Test
     @DisplayName("여행코스 삭제 API를 테스트합니다.")
     @WithMockUser(username = "testUser", roles = "USER")
     void testDelete() throws Exception {
@@ -245,8 +174,7 @@ public class TravelCourseControllerTest {
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null,
-                member
+                null
         );
 
         TravelCourse travelCourse2 = new TravelCourse(
@@ -257,8 +185,7 @@ public class TravelCourseControllerTest {
                 "테스트TV2",
                 CreatorType.YOUTUBER,
                 null,
-                null,
-                member
+                null
         );
 
         List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));

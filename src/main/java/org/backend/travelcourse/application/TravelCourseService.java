@@ -45,13 +45,6 @@ public class TravelCourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<TravelCourseListResponse> findByMemberId(Long id) {
-        return travelCourseRepository.findByMemberId(id)
-                .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_MEMBER))
-                .stream().map(TravelCourseListResponse::toResponseListDto).toList();
-    }
-
-    @Transactional(readOnly = true)
     public List<TravelCourseListResponse> findYoutuberTravelCourse() {
         return travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
                 .orElseThrow(() -> new TravelCouresNotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))
