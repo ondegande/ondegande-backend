@@ -7,10 +7,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.backend.common.BaseTimeEntity;
-import org.backend.member.domain.Member;
 
 @Entity
 @Table(name = "travel_course")
@@ -42,11 +40,14 @@ public class TravelCourse extends BaseTimeEntity {
     @Column(nullable = true, name = "youtuber_image_url", length = 1000)
     private String youtubeImageUrl;
 
-    @ManyToOne
-    private Member member;
-
-    public TravelCourse(Long travelCourseId, String courseName, boolean isShared, int days, String creatorName,
-                        CreatorType creatorType, String youtubeUrl, String youtubeImageUrl, Member member) {
+    public TravelCourse(Long travelCourseId,
+                        String courseName,
+                        boolean isShared,
+                        int days,
+                        String creatorName,
+                        CreatorType creatorType,
+                        String youtubeUrl,
+                        String youtubeImageUrl) {
         this.travelCourseId = travelCourseId;
         this.courseName = courseName;
         this.isShared = isShared;
@@ -55,18 +56,6 @@ public class TravelCourse extends BaseTimeEntity {
         this.creatorType = creatorType;
         this.youtubeUrl = youtubeUrl;
         this.youtubeImageUrl = youtubeImageUrl;
-        this.member = member;
-    }
-
-    public TravelCourse(String courseName, boolean isShared, int days, String creatorName, CreatorType creatorType,
-                        String youtubeUrl, Member member) {
-        this.courseName = courseName;
-        this.isShared = isShared;
-        this.days = days;
-        this.creatorName = creatorName;
-        this.creatorType = creatorType;
-        this.youtubeUrl = youtubeUrl;
-        this.member = member;
     }
 
     public TravelCourse(String courseName,
@@ -74,26 +63,15 @@ public class TravelCourse extends BaseTimeEntity {
                         int days,
                         String creatorName,
                         CreatorType creatorType,
-                        Member member) {
+                        String youtubeUrl) {
         this.courseName = courseName;
         this.isShared = isShared;
         this.days = days;
         this.creatorName = creatorName;
         this.creatorType = creatorType;
-        this.member = member;
+        this.youtubeUrl = youtubeUrl;
     }
 
-    public TravelCourse(String courseName,
-                        boolean isShared,
-                        int days,
-                        String creatorName,
-                        CreatorType creatorType) {
-        this.courseName = courseName;
-        this.isShared = isShared;
-        this.days = days;
-        this.creatorName = creatorName;
-        this.creatorType = creatorType;
-    }
 
     public TravelCourse(String courseName, boolean isShared, int days) {
         this.courseName = courseName;
@@ -109,10 +87,6 @@ public class TravelCourse extends BaseTimeEntity {
 
     public void setCreatorType(CreatorType creatorType) {
         this.creatorType = creatorType;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
     }
 
     public String getYoutubeUrl() {
@@ -145,9 +119,5 @@ public class TravelCourse extends BaseTimeEntity {
 
     public CreatorType getCreatorType() {
         return creatorType;
-    }
-
-    public Member getMember() {
-        return member;
     }
 }
