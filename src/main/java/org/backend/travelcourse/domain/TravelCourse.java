@@ -22,9 +22,6 @@ public class TravelCourse extends BaseTimeEntity {
     private String courseName;
 
     @Column(nullable = false)
-    private boolean isShared;
-
-    @Column(nullable = false)
     private int days;
 
     @Column(nullable = true, length = 500)
@@ -37,56 +34,51 @@ public class TravelCourse extends BaseTimeEntity {
     @Column(nullable = true, name = "youtube_url", length = 1000)
     private String youtubeUrl;
 
-    @Column(nullable = true, name = "youtuber_image_url", length = 1000)
+    @Column(nullable = true, name = "youtube_image_url", length = 1000)
     private String youtubeImageUrl;
+
+    @Column(nullable = true, name = "view_count")
+    private Long viewCount;
 
     public TravelCourse(Long travelCourseId,
                         String courseName,
-                        boolean isShared,
                         int days,
                         String creatorName,
                         CreatorType creatorType,
                         String youtubeUrl,
-                        String youtubeImageUrl) {
+                        String youtubeImageUrl,
+                        Long viewCount) {
         this.travelCourseId = travelCourseId;
         this.courseName = courseName;
-        this.isShared = isShared;
         this.days = days;
         this.creatorName = creatorName;
         this.creatorType = creatorType;
         this.youtubeUrl = youtubeUrl;
         this.youtubeImageUrl = youtubeImageUrl;
+        this.viewCount = viewCount;
     }
 
     public TravelCourse(String courseName,
-                        boolean isShared,
                         int days,
                         String creatorName,
                         CreatorType creatorType,
                         String youtubeUrl) {
         this.courseName = courseName;
-        this.isShared = isShared;
         this.days = days;
         this.creatorName = creatorName;
         this.creatorType = creatorType;
         this.youtubeUrl = youtubeUrl;
     }
 
-
-    public TravelCourse(String courseName, boolean isShared, int days) {
+    public TravelCourse(String courseName, int days) {
         this.courseName = courseName;
-        this.isShared = isShared;
         this.days = days;
     }
 
     public TravelCourse() {}
 
-    public void setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
-    }
-
-    public void setCreatorType(CreatorType creatorType) {
-        this.creatorType = creatorType;
+    public Long getViewCount() {
+        return viewCount;
     }
 
     public String getYoutubeUrl() {
@@ -103,10 +95,6 @@ public class TravelCourse extends BaseTimeEntity {
 
     public String getCourseName() {
         return courseName;
-    }
-
-    public boolean isShared() {
-        return isShared;
     }
 
     public int getDays() {

@@ -6,7 +6,6 @@ import org.backend.travelcourse.domain.TravelCourse;
 
 public record TravelCourseRequest(
         String courseName,
-        boolean isShared,
         int days,
         List<PlaceRequest> places
 ) {
@@ -14,7 +13,6 @@ public record TravelCourseRequest(
     public TravelCourse toEntity() {
         return new TravelCourse(
                 courseName,
-                isShared,
                 days
         );
     }

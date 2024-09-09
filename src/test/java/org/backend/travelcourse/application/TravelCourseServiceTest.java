@@ -25,6 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +56,6 @@ public class TravelCourseServiceTest {
 
         travelCourseRequest = new TravelCourseRequest(
                 "나만의 코스",
-                false,
                 2,
                 List.of()
         );
@@ -63,12 +63,12 @@ public class TravelCourseServiceTest {
         travelCourse = new TravelCourse(
                 1L,
                 "나만의 코스",
-                false,
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null);
+                null,
+                100000L);
 
         travelCourseDetails = List.of(
                 new TravelCourseDetail(travelCourse, place1, 1, 1),
@@ -151,7 +151,7 @@ public class TravelCourseServiceTest {
     }
 
     @Test
-    @DisplayName("유튜버 코스 조회를 테스트입니다.")
+    @DisplayName("유튜버 코스 리스트 조회 테스트입니다.")
     void testFindYoutuberTravelCourse() {
         // when
         when(travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER))
@@ -202,5 +202,21 @@ public class TravelCourseServiceTest {
 
         // then
         assertThrows(TravelCourseDetailNotFoundException.class, () -> travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
+    }
+
+    @Test
+    @DisplayName("유튜버 코스 리스트 필터 조회 테스트입니다.")
+    void testFindYoutuberTravelCourseByViewCount() {
+        // when
+        Sort sort = Sort.by(Sort.Direction.fromString("ASC"), "viewCount");
+        when(travelCourseRepository.findByCreatorType(CreatorType.YOUTUBER, sort))
+                .thenReturn(Optional.of(List.of(travelCourse)));
+
+        List<TravelCourseListResponse> responses = travelCourseService.findYoutuberTravelCourseByViewCount(sort);
+
+        // then
+        assertNotNull(responses);
+        assertEquals(travelCourse.getCourseName(), responses.get(0).courseName());
+        assertEquals(travelCourse.getViewCount(), responses.get(0).viewCount());
     }
 }
