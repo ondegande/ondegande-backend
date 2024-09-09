@@ -8,25 +8,25 @@ import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
 public record TravelCourseResponse(
         Long id,
         String courseName,
-        boolean isShared,
         int days,
         String creatorName,
         CreatorType creatorType,
         String youtubeUrl,
         String youtubeImageUrl,
-        List<TravelCourseDetailResponse> travelCourseDetailResponse
+        List<TravelCourseDetailResponse> travelCourseDetailResponse,
+        Long viewCount
 ) {
     public static TravelCourseResponse toResponseDto(TravelCourse travelCourse, List<TravelCourseDetailResponse> travelCourseDetailResponses) {
         return new TravelCourseResponse(
                 travelCourse.getTravelCourseId(),
                 travelCourse.getCourseName(),
-                travelCourse.isShared(),
                 travelCourse.getDays(),
                 travelCourse.getCreatorName(),
                 travelCourse.getCreatorType(),
                 travelCourse.getYoutubeUrl(),
                 travelCourse.getYoutubeImageUrl(),
-                travelCourseDetailResponses
+                travelCourseDetailResponses,
+                travelCourse.getViewCount()
         );
     }
 }

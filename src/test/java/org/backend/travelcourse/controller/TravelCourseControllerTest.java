@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
@@ -78,14 +79,12 @@ public class TravelCourseControllerTest {
 
         validRequest = new TravelCourseRequest(
                 "나만의 코스",
-                false,
                 2,
                 placeRequests
         );
 
         invalidRequest = new TravelCourseRequest(
                 null,
-                false,
                 2,
                 null
         );
@@ -93,12 +92,12 @@ public class TravelCourseControllerTest {
         travelCourse = new TravelCourse(
                 1L,
                 "나만의 코스",
-                false,
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null
+                null,
+                100000L
         );
 
         travelCourseId = 1L;
@@ -161,30 +160,30 @@ public class TravelCourseControllerTest {
     }
 
     @Test
-    @DisplayName("유튜버 여행코스 조회 API를 테스트합니다.")
+    @DisplayName("유튜버 여행코스 리스트 조회 API를 테스트합니다.")
     @WithMockUser(username = "testUser", roles = "USER")
     void testYoutuberTravelCourseList() throws Exception {
         // given
         TravelCourse travelCourse1 = new TravelCourse(
                 1L,
                 "나만의 코스",
-                false,
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null
+                null,
+                10000L
         );
 
         TravelCourse travelCourse2 = new TravelCourse(
                 2L,
                 "나만의 코스2",
-                false,
                 2,
                 "테스트TV2",
                 CreatorType.YOUTUBER,
                 null,
-                null
+                null,
+                10000L
         );
 
         List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));
@@ -198,6 +197,49 @@ public class TravelCourseControllerTest {
                 .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
                 .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"));
+    }
+
+    @Test
+    @DisplayName("유튜버 여행코스 조회수 필터 조회 테스트입니다.")
+    @WithMockUser(username = "testUser", roles = "USER")
+    void testYotubeTravelCourseListByViewCount() throws Exception {
+        // given
+        Sort sort = Sort.by(Sort.Direction.fromString("DESC"), "viewCount");
+
+        TravelCourse travelCourse1 = new TravelCourse(
+                1L,
+                "나만의 코스",
+                2,
+                "테스트TV",
+                CreatorType.YOUTUBER,
+                null,
+                null,
+                10000L
+        );
+
+        TravelCourse travelCourse2 = new TravelCourse(
+                2L,
+                "나만의 코스2",
+                2,
+                "테스트TV2",
+                CreatorType.YOUTUBER,
+                null,
+                null,
+                12000L
+        );
+
+        List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));
+
+        // when
+        when(travelCourseService.findYoutuberTravelCourseByViewCount(sort)).thenReturn(courseList);
+
+        // then
+        mockMvc.perform(get("/api/travel-courses/youtubers/reviews?sortDirection=DESC")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json"))
+                .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
+                .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
+                .andExpect(jsonPath("$.body.data[0].viewCount").value(travelCourse1.getViewCount()));
     }
 
     @Test

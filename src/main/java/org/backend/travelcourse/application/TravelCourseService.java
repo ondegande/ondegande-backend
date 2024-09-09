@@ -12,6 +12,7 @@ import org.backend.travelcourse.exception.TravelCourseNotFoundException;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
 import org.backend.travelcoursedetail.excetion.TravelCourseDetailNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,13 @@ public class TravelCourseService {
                 .toList();
 
         return TravelCourseResponse.toResponseDto(travelCourse, travelCourseDetailResponses);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TravelCourseListResponse> findYoutuberTravelCourseByViewCount(Sort sort) {
+        return travelCourseRepository.findByCreatorType(CreatorType.YOUTUBER, sort)
+                .orElseThrow(() -> new TravelCourseNotFoundException(ResponseCode.COURSE_NOT_FOUND))
+                .stream().map(TravelCourseListResponse::toResponseListDto).toList();
     }
 
     @Transactional

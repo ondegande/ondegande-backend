@@ -19,10 +19,10 @@ public class Place extends BaseTimeEntity {
     @Column(nullable = false)
     private String placeName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Double latitude;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Double longitude;
 
     public Place() {

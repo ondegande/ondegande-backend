@@ -35,12 +35,12 @@ public class TravelCourseDetailServiceTest {
         TravelCourse travelCourse = new TravelCourse(
                 1L,
                 "나만의 코스",
-                false,
                 2,
                 "테스트TV",
                 CreatorType.YOUTUBER,
                 null,
-                null
+                null,
+                10000L
         );
 
         List<Place> places = List.of(
