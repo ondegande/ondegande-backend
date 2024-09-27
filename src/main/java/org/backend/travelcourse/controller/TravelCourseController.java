@@ -3,6 +3,7 @@ package org.backend.travelcourse.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import org.backend.global.exception.BadRequestException;
 import org.backend.global.response.ApiResponse;
 import org.backend.global.response.ResponseCode;
 import org.backend.place.application.PlaceService;
@@ -12,7 +13,6 @@ import org.backend.travelcourse.dto.TravelCourseListResponse;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.application.TravelCourseService;
-import org.backend.travelcourse.exception.TravelCourseBadRequestException;
 import org.backend.travelcoursedetail.application.TravelCourseDetailService;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +45,7 @@ public class TravelCourseController {
     @Operation(summary = "여행코스 생성", description = "여행 코스를 생성하기 위해 사용하는 API")
     public ApiResponse<Void> create(@RequestBody TravelCourseRequest travelCourseRequest) {
         if (travelCourseRequest.courseName() == null) {
-            throw new TravelCourseBadRequestException(ResponseCode.BAD_REQUEST);
+            throw new BadRequestException(ResponseCode.BAD_REQUEST);
         }
 
         TravelCourse travelCourse = travelCourseService.save(travelCourseRequest);

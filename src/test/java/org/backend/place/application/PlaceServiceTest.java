@@ -5,12 +5,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
+import org.backend.global.exception.AlreadyExistException;
+import org.backend.global.exception.NotFoundException;
 import org.backend.place.domain.Place;
 import org.backend.place.domain.PlaceRepository;
 import org.backend.place.dto.PlaceDetailRequest;
 import org.backend.place.dto.PlaceResponse;
-import org.backend.place.exception.PlaceAlreadyExistException;
-import org.backend.place.exception.PlaceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,10 +75,10 @@ public class PlaceServiceTest {
     @DisplayName("장소 정보 조회 시 찾을 수 없는 예외 발생 테스트 입니다.")
     void testFindByIdException() {
         // when
-        when(placeRepository.findById(1L)).thenThrow(PlaceNotFoundException.class);
+        when(placeRepository.findById(1L)).thenThrow(NotFoundException.class);
 
         // then
-        assertThrows(PlaceNotFoundException.class,
+        assertThrows(NotFoundException.class,
                 () -> placeService.findById(1L));
     }
 
@@ -110,7 +110,7 @@ public class PlaceServiceTest {
         when(placeRepository.findById(1L)).thenReturn(Optional.empty());
 
         // then
-        assertThrows(PlaceNotFoundException.class, () -> placeService.deleteById(1L));
+        assertThrows(NotFoundException.class, () -> placeService.deleteById(1L));
         verify(placeRepository, never()).deleteById(1L);
     }
 
@@ -119,10 +119,10 @@ public class PlaceServiceTest {
     void testValidateLocationException() {
         // when
         when(placeRepository.findByLatitudeAndLongitude(place.getLatitude(), place.getLongitude()))
-                .thenThrow(PlaceAlreadyExistException.class);
+                .thenThrow(AlreadyExistException.class);
 
         // then
-        assertThrows(PlaceAlreadyExistException.class,
+        assertThrows(AlreadyExistException.class,
                 () -> placeService.validatePlace(placeDetailRequest));
     }
 }

@@ -5,11 +5,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import org.backend.global.exception.NotFoundException;
+import org.backend.global.response.ResponseCode;
 import org.backend.place.application.PlaceService;
 import org.backend.place.domain.Place;
 import org.backend.place.dto.PlaceDetailRequest;
@@ -116,19 +119,21 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test
     @DisplayName("여행코스 생성 시 잘못된 요청 예외 발생을 테스트합니다.")
-    @WithMockUser(username = "test User", roles = "USER")
+    @WithMockUser(username = "test", roles = "USER")
     void testCreateBacRequestException() throws Exception {
         // then
         mockMvc.perform(post("/api/travel-courses")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(invalidRequest)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
     @Test
@@ -143,7 +148,24 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"));
+                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("단일 여행코스 정보 조회 시 발생하는 예외처리를 테스트합니다.")
+    @WithMockUser(username = "test User", roles = "USER")
+    void testTravelCourseNotFoundException() throws Exception {
+        // when
+        when(travelCourseService.findById(travelCourseId))
+                .thenThrow(new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
+
+        // then
+        mockMvc.perform(get("/api/travel-courses/{id}", travelCourseId)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
     @Test
@@ -156,7 +178,8 @@ public class TravelCourseControllerTest {
         // then
         mockMvc.perform(delete("/api/travel-courses/{id}", travelCourseId)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test
@@ -196,7 +219,8 @@ public class TravelCourseControllerTest {
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
-                .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"));
+                .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
+                .andDo(print());
     }
 
     @Test
@@ -254,6 +278,7 @@ public class TravelCourseControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"));
+                .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"))
+                .andDo(print());
     }
 }

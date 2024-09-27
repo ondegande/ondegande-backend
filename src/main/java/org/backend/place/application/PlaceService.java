@@ -2,14 +2,13 @@ package org.backend.place.application;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.backend.global.exception.AlreadyExistException;
+import org.backend.global.exception.NotFoundException;
 import org.backend.global.response.ResponseCode;
 import org.backend.place.domain.Place;
 import org.backend.place.dto.PlaceDetailRequest;
-import org.backend.place.dto.PlaceRequest;
 import org.backend.place.dto.PlaceResponse;
 import org.backend.place.domain.PlaceRepository;
-import org.backend.place.exception.PlaceAlreadyExistException;
-import org.backend.place.exception.PlaceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,19 +44,19 @@ public class PlaceService {
     @Transactional(readOnly = true)
     public PlaceResponse findById(Long id) {
         return PlaceResponse.toResponseDto(placeRepository.findById(id)
-                .orElseThrow(() -> new PlaceNotFoundException(ResponseCode.LOCATION_NOT_FOUND)));
+                .orElseThrow(() -> new NotFoundException(ResponseCode.LOCATION_NOT_FOUND)));
     }
 
     public void deleteById(Long id) {
         placeRepository.findById(id).orElseThrow(
-                () -> new PlaceNotFoundException(ResponseCode.LOCATION_NOT_FOUND));
+                () -> new NotFoundException(ResponseCode.LOCATION_NOT_FOUND));
         placeRepository.deleteById(id);
     }
 
     public void validatePlace(PlaceDetailRequest request) {
         placeRepository.findByLatitudeAndLongitude(request.latitude(), request.longitude())
                 .ifPresent(it -> {
-                    throw new PlaceAlreadyExistException(ResponseCode.LOCATION_ALREADY_EXIST);
+                    throw new AlreadyExistException(ResponseCode.LOCATION_ALREADY_EXIST);
                 });
     }
 }

@@ -1,6 +1,7 @@
 package org.backend.global.response;
 
-public class ApiResponse <T> {
+
+public class ApiResponse<T> {
 
     private ApiHeader header;
     private ApiBody <T> body;
@@ -32,17 +33,5 @@ public class ApiResponse <T> {
 
     public static <T> ApiResponse<T> success(ResponseCode responseCode) {
         return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()));
-    }
-
-    public static <T> ApiResponse<T> fail(ResponseCode responseCode) {
-        return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()));
-    }
-
-    public static <T> ApiResponse<T> fail(ResponseCode responseCode, ErrorResponse message) {
-        return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatus(), responseCode.getMessage()), new ApiBody(message));
-    }
-
-    public static <T> ApiResponse<T> fail(T data) {
-        return new ApiResponse<>(new ApiBody<>(data));
     }
 }

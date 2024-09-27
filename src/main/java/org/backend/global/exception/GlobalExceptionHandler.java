@@ -1,4 +1,4 @@
-package org.backend.travelcourse.exception;
+package org.backend.global.exception;
 
 import java.time.LocalDateTime;
 import org.backend.global.response.ErrorResponse;
@@ -8,26 +8,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
-public class TravelCourseExceptionHandler {
+public class GlobalExceptionHandler {
 
-    @ExceptionHandler(TravelCourseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleTravelCourseNotFoundException(TravelCourseNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                exception.getResponseCode().getHttpStatus(),
-                exception.getResponseCode().name(),
+                exception.getResponseCode().getMessage(),
                 exception.getMessage(),
                 request.getDescription(false)
         );
         return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
     }
 
-    @ExceptionHandler(TravelCourseBadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleTravelCourseBadRequestException(TravelCourseBadRequestException exception, WebRequest request) {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleTravelCourseBadRequestException(BadRequestException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                exception.getResponseCode().getHttpStatus(),
-                exception.getResponseCode().name(),
+                exception.getResponseCode().getMessage(),
                 exception.getMessage(),
                 request.getDescription(false)
         );
