@@ -10,11 +10,6 @@ public class BaseException extends RuntimeException {
         this.responseCode = responseCode;
     }
 
-    @Override
-    public String getMessage() {
-        return responseCode.getMessage();
-    }
-
     public ResponseCode getResponseCode() {
         return responseCode;
     }

@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 public record ErrorResponse(LocalDateTime timestamp,
                             String message,
-                            String error,
                             String path) {
+    @Override
+    public String toString() {
+        return "time : " + timestamp + "\nmessage : " + message + "\npath : " + path;
+    }
 }
