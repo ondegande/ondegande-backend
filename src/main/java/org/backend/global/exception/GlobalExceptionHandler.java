@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    protected final Log log = LogFactory.getLog(this.getClass());
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
@@ -20,6 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getResponseCode().getMessage(),
                 request.getDescription(false)
         );
+        log.warn(errorResponse.toString(), exception);
         return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
     }
 
@@ -30,6 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getResponseCode().getMessage(),
                 request.getDescription(false)
         );
+        log.warn(errorResponse.toString(), exception);
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
@@ -40,6 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getResponseCode().getMessage(),
                 request.getDescription(false)
         );
+        log.warn(errorResponse.toString(), exception);
         return new ResponseEntity<>(errorResponse, exception.getResponseCode().getHttpStatus());
     }
 }
