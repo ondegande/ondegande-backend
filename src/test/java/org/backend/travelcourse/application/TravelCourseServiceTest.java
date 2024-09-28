@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 import java.util.Optional;
 
+import org.backend.global.exception.NotFoundException;
 import org.backend.place.domain.Place;
 import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
@@ -14,10 +15,8 @@ import org.backend.travelcourse.domain.TravelCourseRepository;
 import org.backend.travelcourse.dto.TravelCourseListResponse;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
-import org.backend.travelcourse.exception.TravelCourseNotFoundException;
 import org.backend.travelcoursedetail.domain.TravelCourseDetail;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
-import org.backend.travelcoursedetail.excetion.TravelCourseDetailNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,10 +110,10 @@ public class TravelCourseServiceTest {
     @DisplayName("고유 아이디로 여행코스 정보 조회 시 찾을 수 없는 예외 발생 테스트입니다.")
     void testTravelCourseNotFoundException() {
         // when
-        when(travelCourseRepository.findById(1L)).thenThrow(TravelCourseNotFoundException.class);
+        when(travelCourseRepository.findById(1L)).thenThrow(NotFoundException.class);
 
         // then
-        assertThrows(TravelCourseNotFoundException.class, () -> travelCourseService.findById(1L));
+        assertThrows(NotFoundException.class, () -> travelCourseService.findById(1L));
     }
 
     @Test
@@ -123,10 +122,10 @@ public class TravelCourseServiceTest {
         // when
         when(travelCourseRepository.findById(1L)).thenReturn(Optional.of(travelCourse));
         when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
-                .thenThrow(TravelCourseDetailNotFoundException.class);
+                .thenThrow(NotFoundException.class);
 
         // then
-        assertThrows(TravelCourseDetailNotFoundException.class, () -> travelCourseService.findById(1L));
+        assertThrows(NotFoundException.class, () -> travelCourseService.findById(1L));
     }
 
     @Test
@@ -147,7 +146,7 @@ public class TravelCourseServiceTest {
         when(travelCourseRepository.findById(1L)).thenReturn(Optional.empty());
 
         // then
-        assertThrows(TravelCourseNotFoundException.class, () -> travelCourseService.deleteById(1L));
+        assertThrows(NotFoundException.class, () -> travelCourseService.deleteById(1L));
     }
 
     @Test
@@ -185,10 +184,10 @@ public class TravelCourseServiceTest {
     void testFindRandomYoutuberTravelCourseByCreatorTypeException() {
         // when
         when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
-                .thenThrow(TravelCourseNotFoundException.class);
+                .thenThrow(NotFoundException.class);
 
         // then
-        assertThrows(TravelCourseNotFoundException.class, () -> travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
+        assertThrows(NotFoundException.class, () -> travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
     }
 
     @Test
@@ -198,10 +197,10 @@ public class TravelCourseServiceTest {
         when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenReturn(Optional.of(travelCourse));
         when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
-                .thenThrow(TravelCourseDetailNotFoundException.class);
+                .thenThrow(NotFoundException.class);
 
         // then
-        assertThrows(TravelCourseDetailNotFoundException.class, () -> travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
+        assertThrows(NotFoundException.class, () -> travelCourseService.findRandomYoutuberTravelCourseByCreatorType());
     }
 
     @Test
