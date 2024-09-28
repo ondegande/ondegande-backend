@@ -87,7 +87,8 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Zip the JAR file
-        run: zip -r myapp.zip build/libs/*.jar appspec.yml scripts
+        run: zip -r myapp.zip build/libs/*.jar appspec.yml scripts src/main/resources/logback.xml src/main/resources/info-appender.xml src/main/resources/error-appender.xml src/main/resources/warn-appender.xml
+
 
       - name: Upload the ZIP file to S3
         run: aws s3 cp myapp.zip s3://ondegande-s3-build/
