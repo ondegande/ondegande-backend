@@ -96,14 +96,15 @@ public class TravelCourseServiceTest {
     void testFindById() {
         // when
         when(travelCourseRepository.findById(1L)).thenReturn(Optional.of(travelCourse));
-        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
+        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId()))
                 .thenReturn(Optional.of(travelCourseDetails));
         TravelCourseResponse response = travelCourseService.findById(1L);
 
         // then
         assertNotNull(response);
         assertEquals("나만의 코스", response.courseName());
-        assertEquals(travelCourseDetails.get(0).getOrderInDay(), response.travelCourseDetailResponse().get(0).orderInDay());
+        assertEquals(travelCourseDetails.get(0).getCourseDay(), response.travelCourseDetailResponse().get(0).day());
+        assertEquals(travelCourseDetails.get(3).getOrderInDay(), response.travelCourseDetailResponse().get(3).orderInDay());
     }
 
     @Test
@@ -121,7 +122,7 @@ public class TravelCourseServiceTest {
     void testTravelCourseDetailNotFoundException() {
         // when
         when(travelCourseRepository.findById(1L)).thenReturn(Optional.of(travelCourse));
-        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
+        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId()))
                 .thenThrow(NotFoundException.class);
 
         // then
@@ -169,7 +170,7 @@ public class TravelCourseServiceTest {
         // when
         when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenReturn(Optional.of(travelCourse));
-        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
+        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId()))
                 .thenReturn(Optional.of(travelCourseDetails));
 
         TravelCourseResponse response = travelCourseService.findRandomYoutuberTravelCourseByCreatorType();
@@ -196,7 +197,7 @@ public class TravelCourseServiceTest {
         // when
         when(travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString()))
                 .thenReturn(Optional.of(travelCourse));
-        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse))
+        when(travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId()))
                 .thenThrow(NotFoundException.class);
 
         // then

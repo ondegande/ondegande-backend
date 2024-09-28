@@ -36,7 +36,7 @@ public class TravelCourseService {
         TravelCourse travelCourse = travelCourseRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
-        List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
+        List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId())
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_DETAIL_NOT_FOUND))
                 .stream().map(TravelCourseDetailResponse::toResponseDto)
                 .toList();
@@ -56,7 +56,7 @@ public class TravelCourseService {
         TravelCourse travelCourse = travelCourseRepository.findRandomTravelCourseByCreatorType(CreatorType.YOUTUBER.toString())
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
-        List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourse(travelCourse)
+        List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId())
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_DETAIL_NOT_FOUND))
                 .stream().map(TravelCourseDetailResponse::toResponseDto)
                 .toList();

@@ -263,7 +263,8 @@ public class TravelCourseControllerTest {
                         .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
                 .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
-                .andExpect(jsonPath("$.body.data[0].viewCount").value(travelCourse1.getViewCount()));
+                .andExpect(jsonPath("$.body.data[0].viewCount").value(travelCourse1.getViewCount()))
+                .andDo(print());
     }
 
     @Test
