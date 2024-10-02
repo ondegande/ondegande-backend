@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPOSITORY=/home/ec2-user/backend
-LOG_BASE_DIR="$REPOSITORY/logs"
+LOG_BASE_DIR=/home/ec2-user/logs
 LOG_INFO_DIR="$LOG_BASE_DIR/info"
 LOG_WARN_DIR="$LOG_BASE_DIR/warn"
 LOG_ERROR_DIR="$LOG_BASE_DIR/error"
