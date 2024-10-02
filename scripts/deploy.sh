@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/ec2-user/backend || exit
+
 REPOSITORY=/home/ec2-user/backend
 LOG_BASE_DIR=/home/ec2-user/logs
 LOG_INFO_DIR="$LOG_BASE_DIR/info"
