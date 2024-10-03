@@ -31,8 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -108,7 +106,6 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("여행코스 생성 API를 테스트합니다.")
-    @WithMockUser(username = "test", roles = "USER")
     void testCreate() throws Exception {
         // when
         when(travelCourseService.save(validRequest)).thenReturn(travelCourse);
@@ -116,7 +113,6 @@ public class TravelCourseControllerTest {
 
         // then
         mockMvc.perform(post("/api/travel-courses")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(validRequest)))
                 .andExpect(status().isOk())
@@ -125,11 +121,9 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("여행코스 생성 시 잘못된 요청 예외 발생을 테스트합니다.")
-    @WithMockUser(username = "test", roles = "USER")
     void testCreateBacRequestException() throws Exception {
         // then
         mockMvc.perform(post("/api/travel-courses")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json")
                         .content(mapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())
@@ -138,14 +132,12 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("단일 여행코스 정보 조회 API를 테스트합니다.")
-    @WithMockUser(username = "test User", roles = "USER")
     void testMyTravelCourse() throws Exception {
         // when
         when(travelCourseService.findById(travelCourseId)).thenReturn(TravelCourseResponse.toResponseDto(travelCourse, List.of()));
 
         // then
         mockMvc.perform(get("/api/travel-courses/{id}", travelCourseId)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"))
@@ -154,7 +146,6 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("단일 여행코스 정보 조회 시 발생하는 예외처리를 테스트합니다.")
-    @WithMockUser(username = "test User", roles = "USER")
     void testTravelCourseNotFoundException() throws Exception {
         // when
         when(travelCourseService.findById(travelCourseId))
@@ -162,7 +153,6 @@ public class TravelCourseControllerTest {
 
         // then
         mockMvc.perform(get("/api/travel-courses/{id}", travelCourseId)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isNotFound())
                 .andDo(print());
@@ -170,21 +160,18 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("여행코스 삭제 API를 테스트합니다.")
-    @WithMockUser(username = "testUser", roles = "USER")
     void testDelete() throws Exception {
         // when
         doNothing().when(travelCourseService).deleteById(travelCourseId);
 
         // then
-        mockMvc.perform(delete("/api/travel-courses/{id}", travelCourseId)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+        mockMvc.perform(delete("/api/travel-courses/{id}", travelCourseId))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
     @DisplayName("유튜버 여행코스 리스트 조회 API를 테스트합니다.")
-    @WithMockUser(username = "testUser", roles = "USER")
     void testYoutuberTravelCourseList() throws Exception {
         // given
         TravelCourse travelCourse1 = new TravelCourse(
@@ -216,7 +203,6 @@ public class TravelCourseControllerTest {
 
         // then
         mockMvc.perform(get("/api/travel-courses/youtubers")
-                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
                 .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
@@ -225,7 +211,6 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("유튜버 여행코스 조회수 필터 조회 테스트입니다.")
-    @WithMockUser(username = "testUser", roles = "USER")
     void testYotubeTravelCourseListByViewCount() throws Exception {
         // given
         Sort sort = Sort.by(Sort.Direction.fromString("DESC"), "viewCount");
@@ -259,7 +244,6 @@ public class TravelCourseControllerTest {
 
         // then
         mockMvc.perform(get("/api/travel-courses/youtubers/reviews?sortDirection=DESC")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
                 .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
@@ -269,14 +253,12 @@ public class TravelCourseControllerTest {
 
     @Test
     @DisplayName("유튜버 여행코스 정보 랜덤 조회 API를 테스트합니다.")
-    @WithMockUser(username = "test User", roles = "USER")
     void testRandomYoutuberTravelCourse() throws Exception {
         // when
         when(travelCourseService.findRandomYoutuberTravelCourseByCreatorType()).thenReturn(TravelCourseResponse.toResponseDto(travelCourse, List.of()));
 
         // then
         mockMvc.perform(get("/api/travel-courses/youtubers/random")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.body.data.courseName").value("나만의 코스"))
