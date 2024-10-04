@@ -7,6 +7,8 @@ public record ErrorResponse(LocalDateTime timestamp,
                             String path) {
     @Override
     public String toString() {
-        return "time : " + timestamp + ", message : " + message + " path : " + path;
+        return "time : " + timestamp
+                + ", message : " + message
+                + ", path : " + path;
     }
 }

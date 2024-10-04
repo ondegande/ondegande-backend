@@ -7,7 +7,7 @@
     <springProfile name="local">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
-                <pattern>%green([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta(%-5level) %highlight([%logger{36}]) - %yellow(%msg%n)</pattern>
+                <pattern>%green([%d{yyyy-MM-dd HH:mm:ss.SSS}]) [%thread] %magenta(%-5level) %highlight([%logger{36}]) - %yellow(%msg%n)</pattern>
                 <charset>UTF-8</charset>
             </encoder>
         </appender>
