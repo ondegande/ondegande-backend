@@ -30,37 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TravelCourseController {
 
     private final TravelCourseService travelCourseService;
-    private final TravelCourseDetailService travelCourseDetailService;
-    private final PlaceService placeService;
 
-    public TravelCourseController(TravelCourseService travelCourseService,
-                                  TravelCourseDetailService travelCourseDetailService,
-                                  PlaceService placeService) {
+    public TravelCourseController(TravelCourseService travelCourseService) {
         this.travelCourseService = travelCourseService;
-        this.travelCourseDetailService = travelCourseDetailService;
-        this.placeService = placeService;
-    }
-
-    @PostMapping("/travel-courses")
-    @Operation(summary = "여행코스 생성", description = "여행 코스를 생성하기 위해 사용하는 API")
-    public ApiResponse<Void> create(@RequestBody TravelCourseRequest travelCourseRequest) {
-        if (travelCourseRequest.courseName() == null) {
-            throw new BadRequestException(ResponseCode.BAD_REQUEST);
-        }
-
-        TravelCourse travelCourse = travelCourseService.save(travelCourseRequest);
-        travelCourseRequest.places()
-                .forEach(placeRequest -> {
-                    List<Place> places = placeService.findOrSave(placeRequest.places());
-                    travelCourseDetailService.saveTravelCourseDetails(travelCourse, places, placeRequest.day());
-                });
-
-        return ApiResponse.success(ResponseCode.COURSE_CREATED);
     }
 
     @GetMapping("/travel-courses/{id}")
     @Operation(summary = "여행코스 상세 정보 조회", description = "여행코스 고유 ID 값을 이용해 여행코스 상세 정보를 조회하기 위해 사용하는 API")
-    public ApiResponse<TravelCourseResponse> myTravelCourse(@PathVariable Long id) {
+    public ApiResponse<TravelCourseResponse> getMyTravelCourse(@PathVariable Long id) {
         return ApiResponse.success(ResponseCode.COURSE_READ_SUCCESS, travelCourseService.findById(id));
     }
 
@@ -81,12 +58,5 @@ public class TravelCourseController {
     public ApiResponse<List<TravelCourseListResponse>> youtuberTravelCourseListByViewCount(@RequestParam String sortDirection) {
         return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS,
                 travelCourseService.findYoutuberTravelCourseByViewCount(Sort.by(Sort.Direction.fromString(sortDirection), "viewCount")));
-    }
-
-    @DeleteMapping("/travel-courses/{id}")
-    @Operation(summary = "여행코스 삭제", description = "여행 코스 고유 ID를 이용해 여행코스 정보를 삭제하기 위해 사용하는 API")
-    public ApiResponse<Void> delete(@PathVariable Long id) {
-        travelCourseService.deleteById(id);
-        return ApiResponse.success(ResponseCode.LOCATION_DELETE_SUCCESS);
     }
 }
