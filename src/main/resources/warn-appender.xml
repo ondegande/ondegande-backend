@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
     <appender name="FILE-WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/warn/${BY_DATE}.log</file>
+        <file>../logs/warn/%d{yyyy-MM-dd}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>../logs/backup/warn/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
