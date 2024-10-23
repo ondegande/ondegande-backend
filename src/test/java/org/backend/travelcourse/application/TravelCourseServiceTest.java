@@ -1,7 +1,6 @@
 package org.backend.travelcourse.application;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -80,18 +79,6 @@ public class TravelCourseServiceTest {
     }
 
     @Test
-    @DisplayName("여행 코스 저장 테스트입니다.")
-    void testSave() {
-        // when
-        when(travelCourseRepository.save(any(TravelCourse.class))).thenReturn(travelCourse);
-        TravelCourse response = travelCourseService.save(travelCourseRequest);
-
-        // then
-        assertNotNull(response);
-        assertEquals("나만의 코스", response.getCourseName());
-    }
-
-    @Test
     @DisplayName("고유 아이디 값으로 여행코스 조회 테스트입니다.")
     void testFindById() {
         // when
@@ -127,27 +114,6 @@ public class TravelCourseServiceTest {
 
         // then
         assertThrows(NotFoundException.class, () -> travelCourseService.findById(1L));
-    }
-
-    @Test
-    @DisplayName("고유 아이디로 여행코스 삭제 테스트입니다.")
-    void testDeleteById() {
-        // when
-        when(travelCourseRepository.findById(1L)).thenReturn(Optional.of(travelCourse));
-        travelCourseService.deleteById(1L);
-
-        // then
-        verify(travelCourseRepository).deleteById(1L);
-    }
-
-    @Test
-    @DisplayName("고유 아이디로 여행코스 삭제 시 예외 발생 테스트입니다.")
-    void testDeleteByIdException() {
-        // when
-        when(travelCourseRepository.findById(1L)).thenReturn(Optional.empty());
-
-        // then
-        assertThrows(NotFoundException.class, () -> travelCourseService.deleteById(1L));
     }
 
     @Test

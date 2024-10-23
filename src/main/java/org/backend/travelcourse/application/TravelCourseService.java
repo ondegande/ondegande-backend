@@ -26,11 +26,6 @@ public class TravelCourseService {
         this.travelCourseDetailRepository = travelCourseDetailRepository;
     }
 
-    @Transactional
-    public TravelCourse save(TravelCourseRequest request) {
-        return travelCourseRepository.save(request.toEntity());
-    }
-
     @Transactional(readOnly = true)
     public TravelCourseResponse findById(Long id) {
         TravelCourse travelCourse = travelCourseRepository.findById(id)
@@ -69,12 +64,5 @@ public class TravelCourseService {
         return travelCourseRepository.findByCreatorType(CreatorType.YOUTUBER, sort)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND))
                 .stream().map(TravelCourseListResponse::toResponseListDto).toList();
-    }
-
-    @Transactional
-    public void deleteById(Long id) {
-        travelCourseRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
-        travelCourseRepository.deleteById(id);
     }
 }
