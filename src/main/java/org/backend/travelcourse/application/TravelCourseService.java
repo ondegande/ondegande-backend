@@ -11,6 +11,7 @@ import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +27,10 @@ public class TravelCourseService {
         this.travelCourseDetailRepository = travelCourseDetailRepository;
     }
 
-    @Transactional(readOnly = true)
-    public TravelCourseResponse findById(Long id) {
-        TravelCourse travelCourse = travelCourseRepository.findById(id)
+    @Transactional
+    @Cacheable(value = "travelCourse", key = "'TravelCourse_' + #travelCourseId")
+    public TravelCourseResponse findById(Long travelCourseId) {
+        TravelCourse travelCourse = travelCourseRepository.findById(travelCourseId)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
         List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId())
@@ -40,6 +42,7 @@ public class TravelCourseService {
     }
 
     @Transactional(readOnly = true)
+//    @Cacheable(value = "travelCourseList", key = "'allTravelCourses'")
     public List<TravelCourseListResponse> findYoutuberTravelCourseByCreatorType() {
         return travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))

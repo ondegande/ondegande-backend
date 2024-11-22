@@ -10,11 +10,14 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
+    @Value("${spring.data.redis.host}")
     private String REDIS_HOST;
 
-    @Value("${spring.redis.port}")
+    @Value("${spring.data.redis.port}")
     private int REDIS_PORT;
+
+    @Value("${spring.data.redis.password}")
+    private String REDIS_PASSWORD;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
@@ -22,6 +25,7 @@ public class RedisConfig {
 
         configuration.setHostName(REDIS_HOST);
         configuration.setPort(REDIS_PORT);
+        configuration.setPassword(REDIS_PASSWORD);
 
         return new LettuceConnectionFactory(configuration);
     }
