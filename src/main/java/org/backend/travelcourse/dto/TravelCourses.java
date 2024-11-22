@@ -4,7 +4,9 @@ import java.util.List;
 
 public class TravelCourses {
 
-    private final List<TravelCourseListResponse> travelCourses;
+    private List<TravelCourseListResponse> travelCourses;
+
+    public TravelCourses(){}
 
     public TravelCourses(List<TravelCourseListResponse> travelCourses) {
         this.travelCourses = travelCourses;

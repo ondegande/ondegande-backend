@@ -12,8 +12,8 @@ import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
 import org.backend.travelcourse.dto.TravelCourseListResponse;
-import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
+import org.backend.travelcourse.dto.TravelCourses;
 import org.backend.travelcoursedetail.domain.TravelCourseDetail;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,6 @@ public class TravelCourseServiceTest {
     private TravelCourseService travelCourseService;
 
     private TravelCourse travelCourse;
-    private TravelCourseRequest travelCourseRequest;
     private List<TravelCourseDetail> travelCourseDetails;
 
     @BeforeEach
@@ -51,12 +50,6 @@ public class TravelCourseServiceTest {
         Place place4 = new Place(4L, "Place4", 37.7749, -122.4194);
         Place place5 = new Place(5L, "Place5", 12.7749, -122.4194);
         Place place6 = new Place(6L, "Place6", 16.7749, -122.4194);
-
-        travelCourseRequest = new TravelCourseRequest(
-                "나만의 코스",
-                2,
-                List.of()
-        );
 
         travelCourse = new TravelCourse(
                 1L,
@@ -123,11 +116,11 @@ public class TravelCourseServiceTest {
         when(travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER))
                 .thenReturn(Optional.of(List.of(travelCourse)));
 
-        List<TravelCourseListResponse> responses = travelCourseService.findYoutuberTravelCourseByCreatorType();
+        TravelCourses responses = travelCourseService.findYoutuberTravelCourseByCreatorType();
 
         // then
         assertNotNull(responses);
-        assertEquals(travelCourse.getCourseName(), responses.get(0).courseName());
+        assertEquals(travelCourse.getCourseName(), responses.getTravelCourses().get(0).courseName());
     }
 
     @Test

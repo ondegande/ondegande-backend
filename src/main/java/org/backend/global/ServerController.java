@@ -13,7 +13,6 @@ public class ServerController {
 
     @GetMapping("/api/hello")
     @Operation(summary = "서버 동작 확인", description = "서버 동작을 확인하기 위해 사용하는 API")
-    @Cacheable(value = "health", key = "'hello'")
     public String hello() {
         return "Hello, World.";
     }
