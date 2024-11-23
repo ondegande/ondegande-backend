@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - perf/50-elasticache-redis-lettuce
 
 jobs:
   test:
