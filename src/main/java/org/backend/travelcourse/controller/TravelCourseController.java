@@ -13,6 +13,7 @@ import org.backend.travelcourse.dto.TravelCourseListResponse;
 import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.application.TravelCourseService;
+import org.backend.travelcourse.dto.TravelCourses;
 import org.backend.travelcoursedetail.application.TravelCourseDetailService;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +44,7 @@ public class TravelCourseController {
 
     @GetMapping("/travel-courses/youtubers")
     @Operation(summary = "유튜버의 여행코스 목록 조회", description = "저장된 유튜버의 여행코스 목록을 조회하기 위해 사용하는 API")
-    public ApiResponse<List<TravelCourseListResponse>> youtuberTravelCourseList() {
+    public ApiResponse<TravelCourses> youtuberTravelCourseList() {
         return ApiResponse.success(ResponseCode.COURSE_YOUTUBER_READ_SUCCESS, travelCourseService.findYoutuberTravelCourseByCreatorType());
     }
 

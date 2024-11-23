@@ -5,12 +5,13 @@ import org.backend.global.exception.NotFoundException;
 import org.backend.global.response.ResponseCode;
 import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.dto.TravelCourseListResponse;
-import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.domain.TravelCourseRepository;
+import org.backend.travelcourse.dto.TravelCourses;
 import org.backend.travelcoursedetail.domain.TravelCourseDetailRepository;
 import org.backend.travelcoursedetail.dto.TravelCourseDetailResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +27,10 @@ public class TravelCourseService {
         this.travelCourseDetailRepository = travelCourseDetailRepository;
     }
 
-    @Transactional(readOnly = true)
-    public TravelCourseResponse findById(Long id) {
-        TravelCourse travelCourse = travelCourseRepository.findById(id)
+    @Transactional
+    @Cacheable(value = "travelCourse", key = "'TravelCourse_' + #travelCourseId")
+    public TravelCourseResponse findById(Long travelCourseId) {
+        TravelCourse travelCourse = travelCourseRepository.findById(travelCourseId)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND));
 
         List<TravelCourseDetailResponse> travelCourseDetailResponses = travelCourseDetailRepository.findTravelCourseDetailsByTravelCourseId(travelCourse.getTravelCourseId())
@@ -40,10 +42,11 @@ public class TravelCourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<TravelCourseListResponse> findYoutuberTravelCourseByCreatorType() {
-        return travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
+    @Cacheable(value = "travelCourseList", key = "'allTravelCourses'")
+    public TravelCourses findYoutuberTravelCourseByCreatorType() {
+        return new TravelCourses(travelCourseRepository.findTravelCoursesByCreatorType(CreatorType.YOUTUBER)
                 .orElseThrow(() -> new NotFoundException(ResponseCode.COURSE_NOT_FOUND_YOUTUBER))
-                .stream().map(TravelCourseListResponse::toResponseListDto).toList();
+                .stream().map(TravelCourseListResponse::toResponseListDto).toList().stream().toList());
     }
 
     @Transactional(readOnly = true)

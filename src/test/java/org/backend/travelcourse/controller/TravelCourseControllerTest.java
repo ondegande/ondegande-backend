@@ -2,7 +2,6 @@ package org.backend.travelcourse.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,8 +17,8 @@ import org.backend.travelcourse.application.TravelCourseService;
 import org.backend.travelcourse.domain.CreatorType;
 import org.backend.travelcourse.domain.TravelCourse;
 import org.backend.travelcourse.dto.TravelCourseListResponse;
-import org.backend.travelcourse.dto.TravelCourseRequest;
 import org.backend.travelcourse.dto.TravelCourseResponse;
+import org.backend.travelcourse.dto.TravelCourses;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,12 +42,8 @@ public class TravelCourseControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private TravelCourseRequest validRequest;
-    private TravelCourseRequest invalidRequest;
     private TravelCourse travelCourse;
     private Long travelCourseId;
-    private List<PlaceRequest> placeRequests;
-    private List<Place> places1;
 
     @BeforeEach
     void setUp() {
@@ -62,22 +57,6 @@ public class TravelCourseControllerTest {
                         new PlaceDetailRequest("Place1", 37.7749, -122.4194),
                         new PlaceDetailRequest("Place2", 12.7749, -122.4194),
                         new PlaceDetailRequest("Place3", 16.7749, -122.4194))
-        );
-
-        places1 = List.of(place1, place2, place3);
-
-        placeRequests = List.of(placeRequest1);
-
-        validRequest = new TravelCourseRequest(
-                "나만의 코스",
-                2,
-                placeRequests
-        );
-
-        invalidRequest = new TravelCourseRequest(
-                null,
-                2,
-                null
         );
 
         travelCourse = new TravelCourse(
@@ -149,15 +128,16 @@ public class TravelCourseControllerTest {
         );
 
         List<TravelCourseListResponse> courseList = List.of(TravelCourseListResponse.toResponseListDto(travelCourse1), TravelCourseListResponse.toResponseListDto(travelCourse2));
+        TravelCourses travelCourses = new TravelCourses(courseList);
 
         // when
-        when(travelCourseService.findYoutuberTravelCourseByCreatorType()).thenReturn(courseList);
+        when(travelCourseService.findYoutuberTravelCourseByCreatorType()).thenReturn(travelCourses);
 
         // then
         mockMvc.perform(get("/api/travel-courses/youtubers")
                 .contentType("application/json"))
-                .andExpect(jsonPath("$.body.data[0].creatorType").value("YOUTUBER"))
-                .andExpect(jsonPath("$.body.data[0].creatorName").value("테스트TV"))
+                .andExpect(jsonPath("$.body.data.travelCourses[0].creatorType").value("YOUTUBER"))
+                .andExpect(jsonPath("$.body.data.travelCourses[0].creatorName").value("테스트TV"))
                 .andDo(print());
     }
 
