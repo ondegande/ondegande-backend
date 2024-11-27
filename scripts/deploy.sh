@@ -7,7 +7,6 @@ LOG_BASE_DIR=/home/ec2-user/logs
 LOG_INFO_DIR="$LOG_BASE_DIR/info"
 LOG_WARN_DIR="$LOG_BASE_DIR/warn"
 LOG_ERROR_DIR="$LOG_BASE_DIR/error"
-LOG_BACKUP_DIR="$LOG_BASE_DIR/backup"
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
@@ -28,9 +27,6 @@ echo "> 로그 디렉토리 생성 및 권한 설정"
 mkdir -p $LOG_INFO_DIR
 mkdir -p $LOG_WARN_DIR
 mkdir -p $LOG_ERROR_DIR
-mkdir -p $LOG_BACKUP_DIR/info
-mkdir -p $LOG_BACKUP_DIR/warn
-mkdir -p $LOG_BACKUP_DIR/error
 
 sudo chmod -R 775 $LOG_BASE_DIR
 sudo chown -R ec2-user:ec2-user $LOG_BASE_DIR

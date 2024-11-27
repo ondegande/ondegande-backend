@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
-    <appender name="FILE-WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/warn/${BY_DATE}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>../logs/backup/warn/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>50MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>500MB</totalSizeCap>
-        </rollingPolicy>
+    <appender name="FILE-WARN" class="ch.qos.logback.core.FileAppender">
+        <file>../logs/warn/warn-${BY_DATE}.log</file>
+        <append>true</append>
         <encoder>
             <pattern>
                 [%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level [PID: ${PID:-}] --- [%15.15thread] %-40.40logger{36} %msg
@@ -20,4 +15,3 @@
         </encoder>
     </appender>
 </included>
-
