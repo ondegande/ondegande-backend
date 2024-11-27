@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
     <appender name="FILE-WARN" class="ch.qos.logback.core.FileAppender">
-        <file>../logs/warn/warn-%d{yyyy-MM-dd}.log</file>
+        <file>../logs/warn/warn-${BY_DATE}.log</file>
         <append>true</append>
         <encoder>
             <pattern>
